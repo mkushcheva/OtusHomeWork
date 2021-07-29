@@ -8,6 +8,7 @@ import org.supercsv.io.ICsvBeanReader;
 import org.supercsv.prefs.CsvPreference;
 import ru.otus.spring.domain.Question;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -17,7 +18,7 @@ import java.util.List;
 /*
   Реализация интерфейса QuestionDao, полученного из ресурса CSV
  */
-public class QuestionDaoCsv implements QuestionDao{
+public class QuestionDaoCsv implements QuestionDao {
     // указываем как будем мапить
     private static final String[] MAPPING = new String[]{
             "number",
@@ -40,7 +41,6 @@ public class QuestionDaoCsv implements QuestionDao{
         };
     }
 
-    @Override
     public List<Question> readQuestionsFromFile(File file) throws IOException {
         List<Question> questions = new ArrayList<>();
 
@@ -57,4 +57,26 @@ public class QuestionDaoCsv implements QuestionDao{
         return questions;
     }
 
+    @Override
+    public List<Question> readQuestionsFromFileNew(File file) {
+        String line = "";
+        String cvsSeparator = ",";
+        List<Question> questions = new ArrayList<>();
+        int counter = 1;
+
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            while ((line = br.readLine()) != null) {
+                if (counter > 1) {
+                    String[] str = line.split(cvsSeparator);
+                    questions.add(new Question(Integer.parseInt(str[0]), str[1], str[2], str[3], str[4]));
+                }
+                counter++;
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return questions;
+    }
 }

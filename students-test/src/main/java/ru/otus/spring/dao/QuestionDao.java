@@ -7,5 +7,5 @@ import java.io.IOException;
 import java.util.List;
 
 public interface QuestionDao {
-    List<Question> readQuestionsFromFile(File file) throws IOException;
+    List<Question> readQuestionsFromFileNew(File file);
 }

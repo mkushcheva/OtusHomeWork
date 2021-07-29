@@ -15,13 +15,14 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public void printQuestion(File file) throws IOException {
+    public void printQuestion(File file) {
         //получить лист вопросов
-        List<Question> questions = dao.readQuestionsFromFile(file);
+        List<Question> questions2 = dao.readQuestionsFromFileNew(file);
 
+        System.out.println("<<<<<<<<<<<Сформировано по новому>>>>>>>>>>>>>>");
         //вывести их на экран
-        for (Question question : questions) {
-            System.out.println(question.toString());
+        for (Question question2 : questions2) {
+            System.out.println(question2.toString());
         }
     }
 

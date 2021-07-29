@@ -1,1 +1,4 @@
 /students-test/.idea/*
+/students-test/target/classes/question.csv
+/students-test/target/*
+/students-test/students-test.iml
