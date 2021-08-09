@@ -11,4 +11,8 @@
         <constructor-arg name="dao" ref="questionDao"/>
     </bean>
 
+    <bean id="questionResource" class="ru.otus.spring.dao.QuestionResource">
+        <property name="resource" value="/question.csv"/>
+    </bean>
+
 </beans>
