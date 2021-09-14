@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class Main {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         ClassPathXmlApplicationContext context =
                 new ClassPathXmlApplicationContext("/spring-context.xml");
         QuestionResource questionResource = context.getBean(QuestionResource.class);
