@@ -1,26 +1,20 @@
 package ru.otus.spring;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.core.io.Resource;
-import ru.otus.spring.dao.QuestionResource;
-import ru.otus.spring.service.QuestionService;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import ru.otus.spring.service.TestingService;
 
 import java.io.IOException;
 
+@ComponentScan(basePackages = "ru.otus")
 public class Main {
 
     public static void main(String[] args) {
-        ClassPathXmlApplicationContext context =
-                new ClassPathXmlApplicationContext("/spring-context.xml");
-        QuestionResource questionResource = context.getBean(QuestionResource.class);
-        Resource resource = questionResource.getResource();
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(Main.class);
 
+        TestingService service = context.getBean(TestingService.class);
         try {
-            // получить сервис с Вопросами
-            QuestionService service = context.getBean(QuestionService.class);
-            // вывести список вопросов
-            service.printQuestion(resource.getFile());
-            context.close();
+            service.testing();
 
         } catch (IOException e) {
             e.printStackTrace();

@@ -8,16 +8,15 @@ public class Question {
     private String answer1;
     private String answer2;
     private String answer3;
+    private int rightNumber;
 
-    public Question() {
-    }
-
-    public Question(int number, String question, String answer1, String answer2, String answer3) {
+    public Question(int number, String question, String answer1, String answer2, String answer3, int rightNumber) {
         this.number = number;
         this.question = question;
         this.answer1 = answer1;
         this.answer2 = answer2;
         this.answer3 = answer3;
+        this.rightNumber = rightNumber;
     }
 
     public int getNumber() {
@@ -60,6 +59,14 @@ public class Question {
 
     public void setAnswer3(String answer3) {
         this.answer3 = answer3;
+    }
+
+    public int getRightNumber() {
+        return rightNumber;
+    }
+
+    public void setRightNumber(int rightNumber) {
+        this.rightNumber = rightNumber;
     }
 
     @Override
