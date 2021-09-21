@@ -1,7 +1,5 @@
 package ru.otus.spring.domain;
 
-import static java.lang.System.lineSeparator;
-
 public class Student {
     private final String surname;
     private final String name;
@@ -36,12 +34,5 @@ public class Student {
 
     public void setTestResult(Boolean testResult) {
         this.testResult = testResult;
-    }
-
-    @Override
-    public String toString() {
-        return "Student: " + surname + " " + name + lineSeparator()
-                + "Correct answers : " + countAnswer + lineSeparator()
-                + (testResult ? "Test successful!" : "Test failed!");
     }
 }

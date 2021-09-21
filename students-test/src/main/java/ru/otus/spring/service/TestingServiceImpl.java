@@ -11,11 +11,13 @@ import java.util.List;
 @Service
 public class TestingServiceImpl implements TestingService {
     private final ReaderService readerService;
+    private final WriterService writerService;
     private final QuestionServiceImpl questionService;
     private final String count;
 
-    public TestingServiceImpl(ReaderService readerService, QuestionServiceImpl questionService, @Value("${count}") String count) {
+    public TestingServiceImpl(ReaderService readerService, WriterService writerService, QuestionServiceImpl questionService, @Value("${count}") String count) {
         this.readerService = readerService;
+        this.writerService = writerService;
         this.questionService = questionService;
         this.count = count;
     }
@@ -28,15 +30,17 @@ public class TestingServiceImpl implements TestingService {
         try {
             Student student = readerService.getStudent();
             List<Question> questions = questionService.getQuestion();
+
             for (Question question : questions) {
                 rightAnswers.add(question.getRightNumber());
-                System.out.println(question);
+                writerService.printQuestionAndAnswerList(question);
                 studentsAnswers.add(readerService.getAnswer());
             }
+
             analysisTestResults(student, studentsAnswers, rightAnswers);
-            System.out.println(student);
+            writerService.printStudentTestResult(student);
         } catch (Exception e) {
-            System.out.println("Testing error :" + e.getMessage());
+            writerService.printErrorMessage(e.getMessage());
         }
     }
 

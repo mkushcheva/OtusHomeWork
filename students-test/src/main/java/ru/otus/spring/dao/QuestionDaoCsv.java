@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /*
@@ -26,7 +27,12 @@ public class QuestionDaoCsv implements QuestionDao {
             while ((line = br.readLine()) != null) {
                 if (counter > 1) {
                     String[] str = line.split(cvsSeparator);
-                    questions.add(new Question(Integer.parseInt(str[0]), str[1], str[2], str[3], str[4], Integer.parseInt(str[5])));
+                    questions.add(new Question(
+                            Integer.parseInt(str[0]),
+                            str[1],
+                            Integer.parseInt(str[2]),
+                            getAnswerList(str[3]))
+                    );
                 }
                 counter++;
             }
@@ -34,7 +40,15 @@ public class QuestionDaoCsv implements QuestionDao {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return questions;
+    }
+
+    private List<String> getAnswerList(String answers) {
+        List<String> answerList = new ArrayList<>();
+
+        final String separator = ";";
+        String[] line = answers.split(separator);
+        Collections.addAll(answerList, line);
+        return answerList;
     }
 }

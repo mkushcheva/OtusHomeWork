@@ -13,23 +13,18 @@ import java.util.List;
 public class QuestionServiceImpl implements QuestionService {
     private final QuestionDao dao;
     private final Resource resourceFile;
+    private final WriterService writerService;
 
-    public QuestionServiceImpl(QuestionDao dao, @Value("${template}") Resource resourceFile) {
+    public QuestionServiceImpl(QuestionDao dao, @Value("${template}") Resource resourceFile, WriterService writerService) {
         this.dao = dao;
         this.resourceFile = resourceFile;
+        this.writerService = writerService;
     }
 
     //Вывод вопросов на экран. Первое ДЗ
     @Override
     public void printQuestion() throws IOException {
-        //получить лист вопросов
-        List<Question> questions2 = dao.readQuestionsFromFileNew(resourceFile.getFile());
-
-        System.out.println("<<<<<<<<<<<Сформировано по новому>>>>>>>>>>>>>>");
-        //вывести их на экран
-        for (Question question2 : questions2) {
-            System.out.println(question2.toString());
-        }
+        writerService.printAllQuestionAndAnswers(dao.readQuestionsFromFileNew(resourceFile.getFile()));
     }
 
     //Получить все вопросы. 2 ДЗ
