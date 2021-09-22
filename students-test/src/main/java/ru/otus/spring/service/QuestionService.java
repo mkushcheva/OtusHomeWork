@@ -1,8 +1,11 @@
 package ru.otus.spring.service;
 
-import java.io.File;
+import ru.otus.spring.domain.Question;
+
 import java.io.IOException;
+import java.util.List;
 
 public interface QuestionService {
-    void printQuestion(File source) throws IOException;
+    void printQuestion() throws IOException;
+    List<Question> getQuestion() throws IOException;
 }

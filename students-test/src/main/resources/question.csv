@@ -1,6 +1,6 @@
-questionNumber,question,answer1,answer2,answer3
-1,How many bits are in 1 byte?,1,2,8
-2,What is the largest number of characters in a file or directory name in Windows?,256,255,10
-3,Which program is an archiver?,NDD,DRWEB,RAR
-4,Which program is an antivirus program?,NDD,DRWEB,RAR
-5,The smallest unit of measure for the amount of information?,Byte,Kilobits,Bit
+questionNumber,question,rightAnswer,answers
+1,How many bits are in 1 byte?,3,1;2;8;9;88
+2,What is the largest number of characters in a file or directory name in Windows?,1,256;255;10
+3,Which program is an archiver?,3,NDD;DRWEB;RAR
+4,Which program is an antivirus program?,2,NDD;DRWEB;RAR
+5,The smallest unit of measure for the amount of information?,3,Byte;Kilobits;Bit
