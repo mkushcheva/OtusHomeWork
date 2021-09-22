@@ -10,6 +10,7 @@ public class Student {
     public Student(String surname, String name) {
         this.surname = surname;
         this.name = name;
+        this.testResult = false;
     }
 
     public String getName() {
