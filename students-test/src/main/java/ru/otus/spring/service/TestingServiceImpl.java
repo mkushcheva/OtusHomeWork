@@ -12,10 +12,10 @@ import java.util.List;
 public class TestingServiceImpl implements TestingService {
     private final ReaderService readerService;
     private final WriterService writerService;
-    private final QuestionServiceImpl questionService;
+    private final QuestionService questionService;
     private final String count;
 
-    public TestingServiceImpl(ReaderService readerService, WriterService writerService, QuestionServiceImpl questionService, @Value("${count}") String count) {
+    public TestingServiceImpl(ReaderService readerService, WriterService writerService, QuestionService questionService, @Value("${count}") String count) {
         this.readerService = readerService;
         this.writerService = writerService;
         this.questionService = questionService;
@@ -53,11 +53,6 @@ public class TestingServiceImpl implements TestingService {
         }
 
         student.setCountAnswer(studentCount);
-
-        if (studentCount >= Integer.parseInt(count)) {
-            student.setTestResult(true);
-        } else {
-            student.setTestResult(false);
-        }
+        student.setTestResult(studentCount >= Integer.parseInt(count));
     }
 }
