@@ -1,7 +1,9 @@
 package ru.otus.spring.service;
 
-import org.springframework.beans.factory.annotation.Value;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
+import ru.otus.spring.config.ApplicationConfig;
 import ru.otus.spring.domain.Question;
 import ru.otus.spring.domain.Student;
 
@@ -9,18 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class TestingServiceImpl implements TestingService {
     private final ReaderService readerService;
     private final WriterService writerService;
     private final QuestionService questionService;
-    private final String count;
-
-    public TestingServiceImpl(ReaderService readerService, WriterService writerService, QuestionService questionService, @Value("${count}") String count) {
-        this.readerService = readerService;
-        this.writerService = writerService;
-        this.questionService = questionService;
-        this.count = count;
-    }
+    private final ApplicationConfig config;
+    private final MessageSource messageSource;
 
     @Override
     public void testing() {
@@ -53,6 +50,6 @@ public class TestingServiceImpl implements TestingService {
         }
 
         student.setCountAnswer(studentCount);
-        student.setTestResult(studentCount >= Integer.parseInt(count));
+        student.setTestResult(studentCount >= config.getCount());
     }
 }

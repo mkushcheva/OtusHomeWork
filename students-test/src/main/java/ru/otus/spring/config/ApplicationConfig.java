@@ -1,24 +1,38 @@
 package ru.otus.spring.config;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
-import org.springframework.core.io.Resource;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
-@Configuration
-@PropertySource("classpath:app.properties")
+import java.io.File;
+
+@ConfigurationProperties(prefix = "testing")
+@Component
 public class ApplicationConfig {
-    @Value("/question.csv")
-    private Resource template;
-
-    @Value("${count}")
+    private File fileName;
+    private File filename_ru_RU;
     private int count;
 
+    public File getFileName() {
+        return fileName;
+    }
 
-    @Bean
-    public static PropertySourcesPlaceholderConfigurer propertyConfigInDev() {
-        return new PropertySourcesPlaceholderConfigurer();
+    public void setFileName(File fileName) {
+        this.fileName = fileName;
+    }
+
+    public File getFileName_ru_RU() {
+        return filename_ru_RU;
+    }
+
+    public void setFileName_ru_RU(File fileName) {
+        this.filename_ru_RU = fileName;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 }

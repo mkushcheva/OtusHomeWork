@@ -1,5 +1,8 @@
 package ru.otus.spring.service;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import ru.otus.spring.domain.Question;
 import ru.otus.spring.domain.Student;
@@ -9,14 +12,16 @@ import java.util.List;
 import static java.lang.System.lineSeparator;
 
 @Service
+@RequiredArgsConstructor
 public class WriterServiceImpl implements WriterService {
+    private final MessageSource messageSource;
+
     @Override
     public void printAllQuestionAndAnswers(List<Question> questions) {
         questions.forEach(question -> {
             System.out.println(
-                    lineSeparator() + "Вопрос №" + question.getNumber() + ":"
-                            + lineSeparator() + question.getQuestion()
-                            + lineSeparator() + "Варианты ответов:"
+                    messageSource.getMessage("testing.question", new Object[]{question.getNumber(), question.getQuestion()}, LocaleContextHolder.getLocale())
+                            + lineSeparator() + messageSource.getMessage("testing.choiceAnswer", null, LocaleContextHolder.getLocale())
             );
             question.getAnswers().forEach(System.out::println);
         });
@@ -27,9 +32,8 @@ public class WriterServiceImpl implements WriterService {
         int i = 1;
 
         System.out.println(
-                lineSeparator() + "Вопрос №" + question.getNumber() + ":"
-                        + lineSeparator() + question.getQuestion()
-                        + lineSeparator() + "Варианты ответов:"
+                messageSource.getMessage("testing.question", new Object[]{question.getNumber(), question.getQuestion()}, LocaleContextHolder.getLocale())
+                        + lineSeparator() + messageSource.getMessage("testing.choiceAnswer", null, LocaleContextHolder.getLocale())
         );
 
         for (String answer : question.getAnswers()) {
@@ -40,15 +44,23 @@ public class WriterServiceImpl implements WriterService {
 
     @Override
     public void printStudentTestResult(Student student) {
+        String fio = student.getSurname() + " " + student.getName();
+
         System.out.println(
-                lineSeparator() + "Student: " + student.getSurname() + " " + student.getName() + lineSeparator()
-                        + "Correct answers : " + student.getCountAnswer() + lineSeparator()
-                        + (student.getTestResult() ? "Test successful!" : "Test failed!")
+                messageSource.getMessage("student.fio", new Object[]{fio}, LocaleContextHolder.getLocale()) + lineSeparator() +
+                        messageSource.getMessage("testing.result.count", new Object[]{student.getCountAnswer()}, LocaleContextHolder.getLocale()) + lineSeparator() +
+                        (student.getTestResult()
+                                ? messageSource.getMessage("testing.result.successful", null, LocaleContextHolder.getLocale())
+                                : messageSource.getMessage("testing.result.failed", null, LocaleContextHolder.getLocale())
+                        )
         );
     }
 
     @Override
     public void printErrorMessage(String msg) {
-        System.out.println("Testing error :" + msg);
+        System.out.println(
+                messageSource.getMessage("testing.error",
+                        new Object[]{msg}, LocaleContextHolder.getLocale())
+        );
     }
 }
