@@ -14,4 +14,9 @@ public class StudentServiceImpl implements StudentService {
     public Student createStudent(String surname, String name) {
         return dao.addStudent(surname, name);
     }
+
+    @Override
+    public Boolean testingAllowed(Student student) {
+        return student != null && student.getName() != null && student.getSurname() != null;
+    }
 }

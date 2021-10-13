@@ -20,12 +20,11 @@ public class TestingServiceImpl implements TestingService {
     private final MessageSourceUtils messageSource;
 
     @Override
-    public void testing() {
+    public void testing(Student student) {
         List<Integer> rightAnswers = new ArrayList<>();
         List<Integer> studentsAnswers = new ArrayList<>();
 
         try {
-            Student student = readerService.getStudent();
             List<Question> questions = questionService.getQuestion();
 
             for (Question question : questions) {
