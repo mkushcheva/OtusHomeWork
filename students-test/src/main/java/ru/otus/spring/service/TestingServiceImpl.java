@@ -1,11 +1,11 @@
 package ru.otus.spring.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import ru.otus.spring.config.ApplicationConfig;
 import ru.otus.spring.domain.Question;
 import ru.otus.spring.domain.Student;
+import ru.otus.spring.utils.MessageSourceUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ public class TestingServiceImpl implements TestingService {
     private final WriterService writerService;
     private final QuestionService questionService;
     private final ApplicationConfig config;
-    private final MessageSource messageSource;
+    private final MessageSourceUtils messageSource;
 
     @Override
     public void testing() {

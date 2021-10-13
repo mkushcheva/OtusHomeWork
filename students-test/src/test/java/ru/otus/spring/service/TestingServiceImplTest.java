@@ -6,12 +6,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.MessageSource;
 import ru.otus.spring.config.ApplicationConfig;
 import ru.otus.spring.generator.QuestionGenerator;
 import ru.otus.spring.generator.StudentGenerator;
-import static org.assertj.core.api.Assertions.*;
+import ru.otus.spring.utils.MessageSourceUtils;
 
 import java.io.IOException;
 
@@ -32,7 +30,7 @@ public class TestingServiceImplTest {
     @Mock
     private ApplicationConfig config;
     @Mock
-    private MessageSource messageSource;
+    private MessageSourceUtils messageSource;
 
     @BeforeEach
     void setUp() {

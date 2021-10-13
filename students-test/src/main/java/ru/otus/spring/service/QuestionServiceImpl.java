@@ -8,9 +8,7 @@ import ru.otus.spring.dao.QuestionDao;
 import ru.otus.spring.domain.Question;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
-import java.util.Locale;
 
 @Service
 @RequiredArgsConstructor
@@ -19,22 +17,21 @@ public class QuestionServiceImpl implements QuestionService {
     private final WriterService writerService;
     private final ApplicationConfig config;
 
-
     //Вывод вопросов на экран. Первое ДЗ
     @Override
-    public void printQuestion() throws IOException {
+    public void printQuestion() {
         writerService.printAllQuestionAndAnswers(dao.readQuestionsFromFileNew(getFileName()));
     }
 
     //Получить все вопросы. 2 ДЗ
     @Override
-    public List<Question> getQuestion() throws IOException {
+    public List<Question> getQuestion() {
         return dao.readQuestionsFromFileNew(getFileName());
     }
 
     private File getFileName() {
         if (LocaleContextHolder.getLocale().toLanguageTag().equals("ru-RU")) {
-            return config.getFileName_ru_RU();
+            return config.getFilename_ru_RU();
         } else {
             return config.getFileName();
         }
