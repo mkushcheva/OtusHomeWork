@@ -7,5 +7,5 @@ import java.io.IOException;
  */
 public interface TestingService {
     //метод запуска тестирования
-    void testing() throws IOException;
+    void testing();
 }

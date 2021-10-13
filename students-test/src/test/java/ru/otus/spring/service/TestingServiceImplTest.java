@@ -6,8 +6,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import ru.otus.spring.config.ApplicationConfig;
 import ru.otus.spring.generator.QuestionGenerator;
 import ru.otus.spring.generator.StudentGenerator;
+import ru.otus.spring.utils.MessageSourceUtils;
 
 import java.io.IOException;
 
@@ -25,10 +27,14 @@ public class TestingServiceImplTest {
     private QuestionService questionService;
     @Mock
     private WriterService writerService;
+    @Mock
+    private ApplicationConfig config;
+    @Mock
+    private MessageSourceUtils messageSource;
 
     @BeforeEach
     void setUp() {
-        testingService = new TestingServiceImpl(readerService, writerService, questionService, "3");
+        testingService = new TestingServiceImpl(readerService, writerService, questionService, config, messageSource);
     }
 
     @DisplayName("протестировать студента с результатом Успешно пройден тест")
@@ -37,6 +43,7 @@ public class TestingServiceImplTest {
         when(readerService.getStudent()).thenReturn(StudentGenerator.getDefaultStudent());
         when(questionService.getQuestion()).thenReturn(QuestionGenerator.getDefaultQuestionList());
         when(readerService.getAnswer()).thenReturn(1);
+        when(config.getCount()).thenReturn(3);
 
         testingService.testing();
 
@@ -61,7 +68,7 @@ public class TestingServiceImplTest {
         when(readerService.getStudent()).thenReturn(StudentGenerator.getDefaultStudent());
         when(questionService.getQuestion()).thenReturn(QuestionGenerator.getDefaultQuestionList());
         when(readerService.getAnswer()).thenReturn(1, 1, 3);
-
+        when(config.getCount()).thenReturn(5);
         testingService.testing();
 
         verify(readerService, times(1)).getStudent();
