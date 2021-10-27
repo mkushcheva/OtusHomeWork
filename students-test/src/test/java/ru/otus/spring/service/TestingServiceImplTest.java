@@ -6,7 +6,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
 import ru.otus.spring.config.ApplicationConfig;
+import ru.otus.spring.domain.Student;
 import ru.otus.spring.generator.QuestionGenerator;
 import ru.otus.spring.generator.StudentGenerator;
 import ru.otus.spring.utils.MessageSourceUtils;
@@ -18,6 +20,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Класс TestingServiceImplTest")
+@SpringBootTest
 public class TestingServiceImplTest {
     private TestingServiceImpl testingService;
 
@@ -40,49 +43,48 @@ public class TestingServiceImplTest {
     @DisplayName("протестировать студента с результатом Успешно пройден тест")
     @Test
     void shouldTestStudentWithResultSuccessfully() throws IOException {
-        when(readerService.getStudent()).thenReturn(StudentGenerator.getDefaultStudent());
+        Student student = StudentGenerator.getDefaultStudent();
         when(questionService.getQuestion()).thenReturn(QuestionGenerator.getDefaultQuestionList());
         when(readerService.getAnswer()).thenReturn(1);
         when(config.getCount()).thenReturn(3);
 
-        testingService.testing();
+        testingService.testing(student);
 
-        verify(readerService, times(1)).getStudent();
         verify(questionService, times(1)).getQuestion();
         verify(writerService, times(3)).printQuestionAndAnswerList(any());
         verify(readerService, times(3)).getAnswer();
 
-        assertNotNull(readerService.getStudent());
+        assertNotNull(student);
 
         assertAll("student",
-                () -> assertEquals(StudentGenerator.SURNAME, readerService.getStudent().getSurname()),
-                () -> assertEquals(StudentGenerator.NAME, readerService.getStudent().getName()),
-                () -> assertEquals(3, readerService.getStudent().getCountAnswer()),
-                () -> assertTrue(readerService.getStudent().getTestResult())
+                () -> assertEquals(StudentGenerator.SURNAME, student.getSurname()),
+                () -> assertEquals(StudentGenerator.NAME, student.getName()),
+                () -> assertEquals(3, student.getCountAnswer()),
+                () -> assertTrue(student.getTestResult())
         );
     }
 
     @DisplayName("протестировать студента с результатом тест не пройден")
     @Test
     void shouldTestStudentWithResultFailed() throws IOException {
-        when(readerService.getStudent()).thenReturn(StudentGenerator.getDefaultStudent());
+        Student student = StudentGenerator.getDefaultStudent();
         when(questionService.getQuestion()).thenReturn(QuestionGenerator.getDefaultQuestionList());
         when(readerService.getAnswer()).thenReturn(1, 1, 3);
         when(config.getCount()).thenReturn(5);
-        testingService.testing();
 
-        verify(readerService, times(1)).getStudent();
+        testingService.testing(student);
+
         verify(questionService, times(1)).getQuestion();
         verify(writerService, times(3)).printQuestionAndAnswerList(any());
         verify(readerService, times(3)).getAnswer();
 
-        assertNotNull(readerService.getStudent());
+        assertNotNull(student);
 
         assertAll("student",
-                () -> assertEquals(StudentGenerator.SURNAME, readerService.getStudent().getSurname()),
-                () -> assertEquals(StudentGenerator.NAME, readerService.getStudent().getName()),
-                () -> assertEquals(2, readerService.getStudent().getCountAnswer()),
-                () -> assertFalse(readerService.getStudent().getTestResult())
+                () -> assertEquals(StudentGenerator.SURNAME, student.getSurname()),
+                () -> assertEquals(StudentGenerator.NAME, student.getName()),
+                () -> assertEquals(2, student.getCountAnswer()),
+                () -> assertFalse(student.getTestResult())
         );
     }
 }

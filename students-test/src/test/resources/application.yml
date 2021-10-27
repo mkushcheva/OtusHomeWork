@@ -1,0 +1,10 @@
+testing:
+  filename: /question.csv
+  filename_ru_RU: /question_ru_RU.csv
+  count: 3
+
+spring:
+  shell:
+    interactive:
+      enabled: false
+

@@ -7,4 +7,6 @@ import ru.otus.spring.domain.Student;
  */
 public interface StudentService {
     Student createStudent(String surname, String name);
+
+    Boolean testingAllowed(Student student);
 }
