@@ -1,0 +1,66 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="2021-10-28--create-author" author="mkushcheva">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="author"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="author">
+            <column name="author_id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="author_name" type="varchar(255)"/>
+        </createTable>
+
+    </changeSet>
+
+    <changeSet id="2021-10-28--create-genre" author="mkushcheva">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="genre"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="genre">
+            <column name="genre_id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="genre_name" type="varchar(255)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2021-10-28--create-book" author="mkushcheva">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="book"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="book">
+            <column name="book_id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="book_title" type="varchar(255)"/>
+            <column name="author_id" type="bigint">
+                <constraints nullable="false"
+                             foreignKeyName="fk_book_author"
+                             references="author(author_id)"
+                             deleteCascade="true"/>
+            </column>
+            <column name="genre_id" type="bigint">
+                <constraints nullable="false"
+                             foreignKeyName="fk_book_genre"
+                             references="genre(genre_id)"
+                             deleteCascade="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
