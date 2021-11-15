@@ -63,4 +63,25 @@
         </createTable>
     </changeSet>
 
+    <changeSet id="2021-11-10--create-comment" author="mkushcheva">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="comment"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="comment">
+            <column name="comment_id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="comment_text" type="varchar(255)"/>
+            <column name="book_id" type="bigint">
+                <constraints foreignKeyName="fk_book_comment"
+                             references="book(book_id)"
+                             deleteCascade="true"/>
+            </column>
+        </createTable>
+
+    </changeSet>
+
 </databaseChangeLog>

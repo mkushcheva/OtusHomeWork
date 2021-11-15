@@ -1,11 +1,21 @@
 package ru.diasoft.library.domain;
 
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
-@RequiredArgsConstructor
+import javax.persistence.*;
+
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Entity
+@Table(name = "author")
 public class Author {
-    private final long id;
-    private final String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "author_id", nullable = false, unique = true)
+    private long id;
+
+    @Column(name = "author_name", nullable = false, unique = true)
+    private String name;
 }

@@ -1,12 +1,12 @@
-package ru.diasoft.library.dao;
+package ru.diasoft.library.repository;
 
 import ru.diasoft.library.domain.Author;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface AuthorDao {
-    Author create(String name);
+public interface AuthorRepository {
+    Author create(Author author);
 
     void deleteById(long id);
 

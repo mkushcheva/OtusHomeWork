@@ -1,9 +1,9 @@
-package ru.diasoft.library.dao;
+package ru.diasoft.library.repository;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import ru.diasoft.library.domain.Author;
 
@@ -13,30 +13,32 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@DisplayName("Dao для работы с авторами должно")
-@JdbcTest
-@Import(AuthorDaoJdbc.class)
-class AuthorDaoJdbcTest {
+@DisplayName("Репозиторий для работы с авторами должен")
+@DataJpaTest
+@Import(AuthorRepositoryJpa.class)
+class AuthorRepositoryJpaTest {
     private static final String AUTHOR_NAME_NEW = "Новый Автор";
     private static final long EXISTING_AUTHOR_ID = 1;
     private static final String EXISTING_AUTHOR_NAME = "Пушкин А.С. test";
 
     @Autowired
-    private AuthorDao authorDao;
+    private AuthorRepository authorRepository;
 
     @Test
     @DisplayName("найти 3 автора в таблице БД")
     void shouldFindAllAuthor() {
-        List<Author> authorList = authorDao.getAll();
+        List<Author> authorList = authorRepository.getAll();
         assertThat(authorList.size()).isEqualTo(3);
     }
 
     @Test
     @DisplayName("добавлять автора в БД")
     void shouldCreateAuthorTest() {
-        int countBefore = authorDao.getAll().size();
-        Author createAuthor = authorDao.create(AUTHOR_NAME_NEW);
-        int countAfter = authorDao.getAll().size();
+        int countBefore = authorRepository.getAll().size();
+        Author newAuthor = new Author(0L,AUTHOR_NAME_NEW);
+        Author createAuthor = authorRepository.create(newAuthor);
+
+        int countAfter = authorRepository.getAll().size();
 
         assertThat(createAuthor.getName()).isEqualTo(AUTHOR_NAME_NEW);
         assertThat(countAfter).isGreaterThan(countBefore);
@@ -46,7 +48,7 @@ class AuthorDaoJdbcTest {
     @Test
     void shouldReturnExpectedAuthorById() {
         Author expectedAuthor = new Author(EXISTING_AUTHOR_ID, EXISTING_AUTHOR_NAME);
-        Author actualAuthor = authorDao.getById(expectedAuthor.getId()).orElse(null);
+        Author actualAuthor = authorRepository.getById(expectedAuthor.getId()).orElse(null);
 
         assertNotNull(actualAuthor);
         assertThat(actualAuthor).usingRecursiveComparison().isEqualTo(expectedAuthor);
@@ -55,10 +57,10 @@ class AuthorDaoJdbcTest {
     @Test
     @DisplayName("удалять автора по идентификатору")
     void shouldDeleteAuthorById() {
-        assertThatCode(() -> authorDao.getById(EXISTING_AUTHOR_ID)).doesNotThrowAnyException();
-        int countBefore = authorDao.getAll().size();
-        authorDao.deleteById(EXISTING_AUTHOR_ID);
-        int countAfter = authorDao.getAll().size();
+        assertThatCode(() -> authorRepository.getById(EXISTING_AUTHOR_ID)).doesNotThrowAnyException();
+        int countBefore = authorRepository.getAll().size();
+        authorRepository.deleteById(EXISTING_AUTHOR_ID);
+        int countAfter = authorRepository.getAll().size();
 
         assertThat(countAfter).isLessThan(countBefore);
     }
@@ -66,7 +68,7 @@ class AuthorDaoJdbcTest {
     @Test
     @DisplayName("возвращать автора по имени")
     void shouldReturnAuthorByName() {
-        Author actualAuthor = authorDao.getByName(EXISTING_AUTHOR_NAME).orElse(null);
+        Author actualAuthor = authorRepository.getByName(EXISTING_AUTHOR_NAME).orElse(null);
         assertNotNull(actualAuthor);
         assertThat(actualAuthor.getId()).isEqualTo(EXISTING_AUTHOR_ID);
     }
@@ -75,8 +77,8 @@ class AuthorDaoJdbcTest {
     @DisplayName("обновить имя автора")
     void shouldUpdateNameAuthor() {
         Author author = new Author(EXISTING_AUTHOR_ID, AUTHOR_NAME_NEW);
-        authorDao.update(author);
-        Author updateAuthor = authorDao.getById(EXISTING_AUTHOR_ID).orElse(null);
+        authorRepository.update(author);
+        Author updateAuthor = authorRepository.getById(EXISTING_AUTHOR_ID).orElse(null);
         assertThat(author).usingRecursiveComparison().isEqualTo(updateAuthor);
     }
 }
