@@ -3,3 +3,10 @@
 /students-test/target/*
 /students-test/students-test.iml
 /students-test/spring-shell.log
+/library/.idea/*
+/library/.mvn/*
+/library/mvnw
+/library/library.iml
+/library/mvnw.cmd
+/library/spring-shell.log
+/library/target/*
