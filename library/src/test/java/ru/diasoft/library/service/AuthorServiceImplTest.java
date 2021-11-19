@@ -7,9 +7,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
-import ru.diasoft.library.repository.AuthorRepository;
 import ru.diasoft.library.domain.Author;
-import ru.diasoft.library.utils.MessageSourceUtils;
+import ru.diasoft.library.repository.AuthorRepository;
 
 import static org.mockito.Mockito.*;
 
@@ -23,13 +22,13 @@ class AuthorServiceImplTest {
     @Mock
     private AuthorRepository authorRepository;
     @Mock
-    private MessageSourceUtils messageSource;
+    private WriterService writerService;
 
     private AuthorServiceImpl authorService;
 
     @BeforeEach
     void setUp() {
-        authorService = new AuthorServiceImpl(authorRepository, messageSource);
+        authorService = new AuthorServiceImpl(authorRepository, writerService);
     }
 
     @Test

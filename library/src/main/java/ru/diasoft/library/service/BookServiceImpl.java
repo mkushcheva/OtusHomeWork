@@ -8,13 +8,10 @@ import ru.diasoft.library.domain.Book;
 import ru.diasoft.library.domain.Comment;
 import ru.diasoft.library.domain.Genre;
 import ru.diasoft.library.repository.BookRepository;
-import ru.diasoft.library.utils.MessageSourceUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import static java.lang.System.lineSeparator;
 
 @RequiredArgsConstructor
 @Service
@@ -23,7 +20,7 @@ public class BookServiceImpl implements BookService {
     private final AuthorService authorService;
     private final GenreService genreService;
 
-    private final MessageSourceUtils messageSource;
+    private final WriterService writerService;
 
     @Override
     @Transactional
@@ -39,7 +36,7 @@ public class BookServiceImpl implements BookService {
                         genreService.getByName(genreName),
                         comments)
         );
-        System.out.println(messageSource.getMessage("book.create.successful", new Object[]{book}));
+        writerService.printMessage("book.create.successful", new Object[]{book});
         return book;
     }
 
@@ -56,9 +53,9 @@ public class BookServiceImpl implements BookService {
             bookUpdate.setTitle(title);
 
             bookRepository.update(bookUpdate);
-            System.out.println(messageSource.getMessage("book.update.successful"));
+            writerService.printMessage("book.update.successful");
         } else {
-            System.out.println(messageSource.getMessage("book.notFound"));
+            writerService.printMessage("book.notFound");
         }
     }
 
@@ -69,9 +66,9 @@ public class BookServiceImpl implements BookService {
 
         if (book.isPresent()) {
             bookRepository.deleteById(book.get().getId());
-            System.out.println(messageSource.getMessage("book.delete.successful", new Object[]{title}));
+            writerService.printMessage("book.delete.successful", new Object[]{title});
         } else {
-            System.out.println(messageSource.getMessage("book.notFound"));
+            writerService.printMessage("book.notFound");
         }
     }
 
@@ -81,37 +78,16 @@ public class BookServiceImpl implements BookService {
         Optional<Book> book = bookRepository.getByTitle(title);
 
         if (book.isPresent()) {
-            System.out.println("№: " + book.get().getId() + lineSeparator()
-                    + messageSource.getMessage("book.message.title") + book.get().getTitle() + lineSeparator()
-                    + messageSource.getMessage("book.message.author") + book.get().getAuthor().getName() + lineSeparator()
-                    + messageSource.getMessage("book.message.ganre") + book.get().getGenre().getName() + lineSeparator()
-                    + messageSource.getMessage("book.message.comments") + lineSeparator()
-            );
-            for (Comment comment : book.get().getComments()) {
-                System.out.println("№: " + comment.getId() + comment.getCommentText() + lineSeparator());
-            }
+            writerService.printInfoBook(book.get());
         } else {
-            System.out.println(messageSource.getMessage("book.notFound"));
+            writerService.printMessage("book.notFound");
         }
     }
 
     @Override
     @Transactional(readOnly = true)
     public void printAllBooks() {
-        System.out.println(messageSource.getMessage("book.listofbooks") + lineSeparator());
-
-        for (Book book : bookRepository.getAll()) {
-            System.out.println("№: " + book.getId() + lineSeparator()
-                    + messageSource.getMessage("book.message.title") + book.getTitle() + lineSeparator()
-                    + messageSource.getMessage("book.message.author") + book.getAuthor().getName() + lineSeparator()
-                    + messageSource.getMessage("book.message.ganre") + book.getGenre().getName() + lineSeparator()
-                    + messageSource.getMessage("book.message.comments") + lineSeparator());
-
-            for (Comment comment : book.getComments()) {
-                System.out.println("№: " + comment.getId() + comment.getCommentText() + lineSeparator());
-            }
-
-        }
+        writerService.printAllBooks(bookRepository.getAll());
     }
 
     @Override
@@ -124,7 +100,7 @@ public class BookServiceImpl implements BookService {
             commentedBook.getComments().add(new Comment(0, commentText));
             bookRepository.create(commentedBook);
         } else {
-            System.out.println(messageSource.getMessage("book.notFound"));
+            writerService.printMessage("book.notFound");
         }
     }
 

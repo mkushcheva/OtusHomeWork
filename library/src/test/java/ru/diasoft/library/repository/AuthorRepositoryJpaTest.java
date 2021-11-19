@@ -81,4 +81,5 @@ class AuthorRepositoryJpaTest {
         Author updateAuthor = authorRepository.getById(EXISTING_AUTHOR_ID).orElse(null);
         assertThat(author).usingRecursiveComparison().isEqualTo(updateAuthor);
     }
+
 }

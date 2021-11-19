@@ -40,7 +40,7 @@ class BookServiceImplTest {
     @Mock
     private GenreService genreService;
     @Mock
-    private MessageSourceUtils messageSource;
+    private WriterService writerService;
 
     private BookServiceImpl bookService;
 
@@ -50,7 +50,7 @@ class BookServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        bookService = new BookServiceImpl(bookRepository, authorService, genreService, messageSource);
+        bookService = new BookServiceImpl(bookRepository, authorService, genreService, writerService);
     }
 
     @Test

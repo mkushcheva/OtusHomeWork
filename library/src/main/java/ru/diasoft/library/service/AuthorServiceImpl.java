@@ -3,19 +3,16 @@ package ru.diasoft.library.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.diasoft.library.repository.AuthorRepository;
 import ru.diasoft.library.domain.Author;
-import ru.diasoft.library.utils.MessageSourceUtils;
+import ru.diasoft.library.repository.AuthorRepository;
 
 import java.util.Optional;
-
-import static java.lang.System.lineSeparator;
 
 @RequiredArgsConstructor
 @Service
 public class AuthorServiceImpl implements AuthorService {
     private final AuthorRepository authorRepository;
-    private final MessageSourceUtils messageSource;
+    private final WriterService writerService;
 
     @Override
     public Author getByName(String name) {
@@ -26,18 +23,14 @@ public class AuthorServiceImpl implements AuthorService {
     @Transactional
     public Author create(String name) {
         Author author = authorRepository.create(new Author(0, name));
-        System.out.println(messageSource.getMessage("author.create.successful", new Object[]{author}));
+        writerService.printMessage("author.create.successful", new Object[]{author});
         return author;
     }
 
     @Override
     @Transactional(readOnly = true)
     public void printAllAuthors() {
-        System.out.println(messageSource.getMessage("author.listofauthors") + lineSeparator());
-
-        for (Author author : authorRepository.getAll()) {
-            System.out.println("№: " + author.getId() + " " + author.getName());
-        }
+        writerService.printAllAuthors(authorRepository.getAll());
     }
 
     @Override
@@ -47,9 +40,9 @@ public class AuthorServiceImpl implements AuthorService {
 
         if (author.isPresent()) {
             authorRepository.deleteById(author.get().getId());
-            System.out.println(messageSource.getMessage("author.delete.successful", new Object[]{name}));
+            writerService.printMessage("author.delete.successful", new Object[]{name});
         } else {
-            System.out.println(messageSource.getMessage("author.notFound"));
+            writerService.printMessage("author.notFound");
         }
     }
 }

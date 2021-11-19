@@ -23,13 +23,13 @@ class GenreServiceImplTest {
     @Mock
     private GenreRepository genreRepository;
     @Mock
-    private MessageSourceUtils messageSource;
+    private WriterService writerService;
 
     private GenreServiceImpl genreService;
 
     @BeforeEach
     void setUp() {
-        genreService = new GenreServiceImpl(genreRepository, messageSource);
+        genreService = new GenreServiceImpl(genreRepository, writerService);
     }
 
     @Test
