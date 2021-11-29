@@ -12,4 +12,6 @@ public interface BookService {
     void printInfoBook(String title);
 
     void printAllBooks();
+
+    void addCommentToBook(String title, String commentText);
 }

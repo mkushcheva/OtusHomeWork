@@ -7,9 +7,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
-import ru.diasoft.library.dao.AuthorDao;
 import ru.diasoft.library.domain.Author;
-import ru.diasoft.library.utils.MessageSourceUtils;
+import ru.diasoft.library.repository.AuthorRepository;
 
 import static org.mockito.Mockito.*;
 
@@ -21,41 +20,34 @@ class AuthorServiceImplTest {
     private static final String EXISTING_AUTHOR_NAME = "test";
 
     @Mock
-    private AuthorDao authorDao;
+    private AuthorRepository authorRepository;
     @Mock
-    private MessageSourceUtils messageSource;
+    private WriterService writerService;
 
     private AuthorServiceImpl authorService;
 
     @BeforeEach
     void setUp() {
-        authorService = new AuthorServiceImpl(authorDao, messageSource);
+        authorService = new AuthorServiceImpl(authorRepository, writerService);
     }
 
     @Test
     @DisplayName("Найти существующего автора в БД")
     void shouldReturnExpectedAuthorById() {
-        when(authorDao.getByName(EXISTING_AUTHOR_NAME))
+        when(authorRepository.getByName(EXISTING_AUTHOR_NAME))
                 .thenReturn(java.util.Optional.of(new Author(EXISTING_AUTHOR_ID, EXISTING_AUTHOR_NAME)));
 
         authorService.getByName(EXISTING_AUTHOR_NAME);
 
-        verify(authorDao, times(1)).getByName(EXISTING_AUTHOR_NAME);
-        verify(authorDao, never()).create(EXISTING_AUTHOR_NAME);
+        verify(authorRepository, times(1)).getByName(EXISTING_AUTHOR_NAME);
     }
 
     @Test
     @DisplayName("Создать автора в БД, которого нет ")
     void shouldCreateAuthor() {
-        when(authorDao.getByName(EXISTING_AUTHOR_NAME))
-                .thenReturn(java.util.Optional.empty());
-
-        when(authorDao.create(EXISTING_AUTHOR_NAME))
-                .thenReturn(new Author(EXISTING_AUTHOR_ID, EXISTING_AUTHOR_NAME));
-
-        authorService.getByName(EXISTING_AUTHOR_NAME);
-
-        verify(authorDao, times(1)).create(EXISTING_AUTHOR_NAME);
-        verify(authorDao, times(1)).getByName(EXISTING_AUTHOR_NAME);
+        Author author = new Author(1, EXISTING_AUTHOR_NAME);
+        when(authorRepository.create(any())).thenReturn(author);
+        authorService.create(EXISTING_AUTHOR_NAME);
+        verify(authorRepository, times(1)).create(any());
     }
 }

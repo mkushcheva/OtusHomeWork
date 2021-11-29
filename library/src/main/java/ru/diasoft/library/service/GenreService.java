@@ -5,7 +5,7 @@ import ru.diasoft.library.domain.Genre;
 public interface GenreService {
     Genre getByName(String name);
 
-    void create(String name);
+    Genre create(String name);
 
     void printAllGenres();
 

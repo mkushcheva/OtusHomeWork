@@ -5,7 +5,7 @@ import ru.diasoft.library.domain.Author;
 public interface AuthorService {
     Author getByName(String name);
 
-    void create(String name);
+    Author create(String name);
 
     void printAllAuthors();
 

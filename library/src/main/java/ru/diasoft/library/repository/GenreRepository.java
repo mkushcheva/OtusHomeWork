@@ -1,12 +1,12 @@
-package ru.diasoft.library.dao;
+package ru.diasoft.library.repository;
 
 import ru.diasoft.library.domain.Genre;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface GenreDao {
-    Genre create(String name);
+public interface GenreRepository {
+    Genre create(Genre genre);
 
     void deleteById(long id);
 

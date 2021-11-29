@@ -39,6 +39,11 @@ public class ShellCommands {
         bookService.printInfoBook(title);
     }
 
+    @ShellMethod(value = "Add Comment", key = {"ac", "Add Comment"})
+    public void addCommentToBook(String title, String commentTest) {
+        bookService.addCommentToBook(title, commentTest);
+    }
+
     /*
      Команды для Автора
     */
@@ -76,4 +81,5 @@ public class ShellCommands {
     public void deleteGenre(String name) {
         genreService.deleteByName(name);
     }
+
 }

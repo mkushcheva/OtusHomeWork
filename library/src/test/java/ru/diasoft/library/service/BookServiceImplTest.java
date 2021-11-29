@@ -7,11 +7,15 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
-import ru.diasoft.library.dao.BookDao;
+import ru.diasoft.library.domain.Comment;
+import ru.diasoft.library.repository.BookRepository;
 import ru.diasoft.library.domain.Author;
 import ru.diasoft.library.domain.Book;
 import ru.diasoft.library.domain.Genre;
 import ru.diasoft.library.utils.MessageSourceUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -30,23 +34,23 @@ class BookServiceImplTest {
     private static final String GENRE_NAME_NEW = "Новый Жанр";
 
     @Mock
-    private BookDao bookDao;
+    private BookRepository bookRepository;
     @Mock
     private AuthorService authorService;
     @Mock
     private GenreService genreService;
     @Mock
-    private MessageSourceUtils messageSource;
+    private WriterService writerService;
 
     private BookServiceImpl bookService;
 
     private final Author author = new Author(AUTHOR_ID, AUTHOR_NAME_NEW);
     private final Genre genre = new Genre(GENRE_ID, GENRE_NAME_NEW);
-    private final Book book = new Book(BOOK_ID, BOOK_TITLE_NEW, author, genre);
+    private final Book book = new Book(BOOK_ID, BOOK_TITLE_NEW, author, genre, new ArrayList<>());
 
     @BeforeEach
     void setUp() {
-        bookService = new BookServiceImpl(bookDao, authorService, genreService, messageSource);
+        bookService = new BookServiceImpl(bookRepository, authorService, genreService, writerService);
     }
 
     @Test
@@ -54,7 +58,7 @@ class BookServiceImplTest {
     void shouldCreateBook() {
         when(authorService.getByName(AUTHOR_NAME_NEW)).thenReturn(author);
         when(genreService.getByName(GENRE_NAME_NEW)).thenReturn(genre);
-        when(bookDao.create(BOOK_TITLE_NEW, author, genre)).thenReturn(book);
+        when(bookRepository.create(any())).thenReturn(book);
 
         Book bookResult = bookService.create(BOOK_TITLE_NEW, AUTHOR_NAME_NEW, GENRE_NAME_NEW);
         assertNotNull(bookResult);
@@ -69,9 +73,9 @@ class BookServiceImplTest {
     @Test
     @DisplayName("Обновить название книги")
     void shouldUpdateBook() {
-        Book updateBook = new Book(BOOK_ID, "Новое название книги", author, genre);
+        Book updateBook = new Book(BOOK_ID, "Новое название книги", author, genre, new ArrayList<>());
 
-        when(bookDao.getById(BOOK_ID)).thenReturn(java.util.Optional.of(book));
+        when(bookRepository.getById(BOOK_ID)).thenReturn(java.util.Optional.of(book));
         when(authorService.getByName(AUTHOR_NAME_NEW)).thenReturn(author);
         when(genreService.getByName(GENRE_NAME_NEW)).thenReturn(genre);
 
@@ -79,17 +83,16 @@ class BookServiceImplTest {
 
         verify(authorService, times(1)).getByName(AUTHOR_NAME_NEW);
         verify(genreService, times(1)).getByName(GENRE_NAME_NEW);
-        verify(bookDao, times(1)).update(updateBook);
+        verify(bookRepository, times(1)).update(updateBook);
     }
 
     @Test
     @DisplayName("Удалить книгу")
     void shouldDeleteBook() {
-        when(bookDao.getByTitle(BOOK_TITLE_NEW)).thenReturn(java.util.Optional.of(book));
+        when(bookRepository.getByTitle(BOOK_TITLE_NEW)).thenReturn(java.util.Optional.of(book));
 
         bookService.deleteByTitle(BOOK_TITLE_NEW);
-        verify(bookDao, times(1)).getByTitle(BOOK_TITLE_NEW);
-        verify(bookDao, times(1)).deleteById(BOOK_ID);
+        verify(bookRepository, times(1)).getByTitle(BOOK_TITLE_NEW);
+        verify(bookRepository, times(1)).deleteById(BOOK_ID);
     }
-
 }
