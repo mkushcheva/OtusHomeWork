@@ -4,25 +4,25 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.diasoft.library.domain.Genre;
-import ru.diasoft.library.repository.GenreRepository;
+import ru.diasoft.library.repository.GenreRepositoryJpa;
 
 import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
 public class GenreServiceImpl implements GenreService {
-    private final GenreRepository genreRepository;
+    private final GenreRepositoryJpa genreRepository;
     private final WriterService writerService;
 
     @Override
     public Genre getByName(String name) {
-        return genreRepository.getByName(name).orElse(null);
+        return genreRepository.findByName(name).orElse(null);
     }
 
     @Override
     @Transactional
     public Genre create(String name) {
-        Genre genre = genreRepository.create(new Genre(0, name));
+        Genre genre = genreRepository.save(new Genre(0, name));
         writerService.printMessage("genre.create.successful", new Object[]{genre});
         return genre;
     }
@@ -30,13 +30,13 @@ public class GenreServiceImpl implements GenreService {
     @Override
     @Transactional(readOnly = true)
     public void printAllGenres() {
-        writerService.printAllGenres(genreRepository.getAll());
+        writerService.printAllGenres(genreRepository.findAll());
     }
 
     @Override
     @Transactional
     public void deleteByName(String name) {
-        Optional<Genre> genre = genreRepository.getByName(name);
+        Optional<Genre> genre = genreRepository.findByName(name);
 
         if (genre.isPresent()) {
             genreRepository.deleteById(genre.get().getId());

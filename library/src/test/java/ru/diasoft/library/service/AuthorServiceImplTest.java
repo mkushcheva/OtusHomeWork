@@ -8,7 +8,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import ru.diasoft.library.domain.Author;
-import ru.diasoft.library.repository.AuthorRepository;
+import ru.diasoft.library.repository.AuthorRepositoryJpa;
 
 import static org.mockito.Mockito.*;
 
@@ -20,7 +20,7 @@ class AuthorServiceImplTest {
     private static final String EXISTING_AUTHOR_NAME = "test";
 
     @Mock
-    private AuthorRepository authorRepository;
+    private AuthorRepositoryJpa authorRepository;
     @Mock
     private WriterService writerService;
 
@@ -34,20 +34,20 @@ class AuthorServiceImplTest {
     @Test
     @DisplayName("Найти существующего автора в БД")
     void shouldReturnExpectedAuthorById() {
-        when(authorRepository.getByName(EXISTING_AUTHOR_NAME))
+        when(authorRepository.findByName(EXISTING_AUTHOR_NAME))
                 .thenReturn(java.util.Optional.of(new Author(EXISTING_AUTHOR_ID, EXISTING_AUTHOR_NAME)));
 
         authorService.getByName(EXISTING_AUTHOR_NAME);
 
-        verify(authorRepository, times(1)).getByName(EXISTING_AUTHOR_NAME);
+        verify(authorRepository, times(1)).findByName(EXISTING_AUTHOR_NAME);
     }
 
     @Test
     @DisplayName("Создать автора в БД, которого нет ")
     void shouldCreateAuthor() {
         Author author = new Author(1, EXISTING_AUTHOR_NAME);
-        when(authorRepository.create(any())).thenReturn(author);
+        when(authorRepository.save(any())).thenReturn(author);
         authorService.create(EXISTING_AUTHOR_NAME);
-        verify(authorRepository, times(1)).create(any());
+        verify(authorRepository, times(1)).save(any());
     }
 }

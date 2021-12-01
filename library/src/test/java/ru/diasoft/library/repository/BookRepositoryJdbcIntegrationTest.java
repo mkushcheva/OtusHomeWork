@@ -5,48 +5,45 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.context.annotation.Import;
 import ru.diasoft.library.domain.Author;
 import ru.diasoft.library.domain.Book;
 import ru.diasoft.library.domain.Comment;
 import ru.diasoft.library.domain.Genre;
-import ru.diasoft.library.service.BookService;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Интеграционный тест должен")
 @DataJpaTest
-@Import({BookRepositoryJpa.class, AuthorRepositoryJpa.class, GenreRepositoryJpa.class})
-public class BookRepositoryJdbcIntegrationTest {
+class BookRepositoryJdbcIntegrationTest {
     private static final String AUTHOR_NAME_NEW = "Интеграционный Автор";
     private static final String GENRE_NAME_NEW = "Интеграционный Жанр";
     private static final String BOOK_TITLE_NEW = "Интеграционная книга";
 
     @Autowired
-    private GenreRepository genreRepository;
+    private GenreRepositoryJpa genreRepository;
     @Autowired
-    private AuthorRepository authorRepository;
+    private AuthorRepositoryJpa authorRepository;
     @Autowired
-    private BookRepository bookRepository;
-
+    private CommentRepositoryJpa commentRepository;
     @Autowired
-    private TestEntityManager em;
+    private BookRepositoryJpa bookRepository;
 
     @BeforeEach
     void fillBase() {
         Author testAuthor = new Author(3, AUTHOR_NAME_NEW);
         Genre testGenre = new Genre(3, GENRE_NAME_NEW);
         List<Comment> comments = new ArrayList<>();
+        comments.add(new Comment(1l, "Comment 1"));
+        comments.add(new Comment(2l, "Comment 2"));
         Book book = new Book(100, BOOK_TITLE_NEW, testAuthor, testGenre, comments);
 
-
-        Author createAuthor = authorRepository.create(testAuthor);
-        Genre createGenre = genreRepository.create(testGenre);
-        Book createBook = bookRepository.create(book);
+        Author createAuthor = authorRepository.save(testAuthor);
+        Genre createGenre = genreRepository.save(testGenre);
+        Book createBook = bookRepository.save(book);
 
         assertNotNull(createAuthor);
         assertNotNull(createGenre);
@@ -58,40 +55,21 @@ public class BookRepositoryJdbcIntegrationTest {
     }
 
     @Test
-    @DisplayName("удалить книгу при удалении жанра")
-    void shouldDeleteBookWhenDeletingItsGenreTest() {
-        Book book = bookRepository.getByTitle(BOOK_TITLE_NEW).orElse(null);
+    @DisplayName("удалить комментарии при удалении книги")
+    void shouldDeleteCommentsWhenDeletingItsBookTest() {
+        Book book = bookRepository.findByTitle(BOOK_TITLE_NEW).orElse(null);
         assertNotNull(book);
-        em.detach(book);
-        Genre genre = genreRepository.getById(book.getGenre().getId()).orElse(null);
-        assertNotNull(genre);
-        em.detach(genre);
 
-        //Удалим жанр и должен удалится книга
-        genreRepository.deleteById(book.getGenre().getId());
-        Genre genreAfterDel = genreRepository.getById(book.getGenre().getId()).orElse(null);
-        assertNull(genreAfterDel);
+        assertThat(authorRepository.findAll().size()).isEqualTo(3);
+        assertThat(genreRepository.findAll().size()).isEqualTo(3);
 
-        Book bookAfterDel = bookRepository.getByTitle(BOOK_TITLE_NEW).orElse(null);
-        assertNull(bookAfterDel);
-    }
 
-    @Test
-    @DisplayName("удалить книгу при удалении ее автора")
-    void shouldDeleteBookWhenDeletingItsAuthorTest() {
-        Book book = bookRepository.getByTitle(BOOK_TITLE_NEW).orElse(null);
-        assertNotNull(book);
-        em.detach(book);
-        Author author = authorRepository.getById(book.getAuthor().getId()).orElse(null);
-        assertNotNull(author);
-        em.detach(author);
+        //Удалим книгу и должны удалиться все ее комментарии
+        bookRepository.deleteById(book.getId());
+        assertThat(commentRepository.findAll().size()).isEqualTo(2);
 
-        //Удалим автора и должен удалится книга
-        authorRepository.deleteById(book.getAuthor().getId());
-        Author authorAfterDel = authorRepository.getById(book.getAuthor().getId()).orElse(null);
-        assertNull(authorAfterDel);
-
-        Book bookAfterDel = bookRepository.getByTitle(BOOK_TITLE_NEW).orElse(null);
-        assertNull(bookAfterDel);
+        //Авторы и жанры должны остаться
+        assertThat(authorRepository.findAll().size()).isEqualTo(3);
+        assertThat(genreRepository.findAll().size()).isEqualTo(3);
     }
 }

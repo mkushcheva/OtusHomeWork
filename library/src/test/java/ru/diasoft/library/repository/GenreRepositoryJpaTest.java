@@ -15,29 +15,28 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @DisplayName("Репозиторий для работы с жанрами должен")
 @DataJpaTest
-@Import(GenreRepositoryJpa.class)
 class GenreRepositoryJpaTest {
     private static final String GENRE_NAME_NEW = "Новый Жанр";
     private static final long EXISTING_GENRE_ID = 1;
     private static final String EXISTING_GENRE_NAME = "Сказка";
 
     @Autowired
-    private GenreRepository genreRepository;
+    private GenreRepositoryJpa genreRepository;
 
     @Test
     @DisplayName("найти 3 жанра в таблице БД")
     void shouldFindAllGenre() {
-        List<Genre> GenreList = genreRepository.getAll();
+        List<Genre> GenreList = genreRepository.findAll();
         assertThat(GenreList.size()).isEqualTo(3);
     }
 
     @Test
     @DisplayName("добавить жанр в БД")
     void shouldCreateGenreTest() {
-        int countBefore = genreRepository.getAll().size();
+        int countBefore = genreRepository.findAll().size();
         Genre newGenre = new Genre(0L, GENRE_NAME_NEW);
-        Genre createGenre = genreRepository.create(newGenre);
-        int countAfter = genreRepository.getAll().size();
+        Genre createGenre = genreRepository.save(newGenre);
+        int countAfter = genreRepository.findAll().size();
 
         assertThat(createGenre.getName()).isEqualTo(GENRE_NAME_NEW);
         assertThat(countAfter).isGreaterThan(countBefore);
@@ -47,7 +46,7 @@ class GenreRepositoryJpaTest {
     @Test
     void shouldReturnExpectedGenreById() {
         Genre expectedGenre = new Genre(EXISTING_GENRE_ID, EXISTING_GENRE_NAME);
-        Genre actualGenre = genreRepository.getById(expectedGenre.getId()).orElse(null);
+        Genre actualGenre = genreRepository.findById(expectedGenre.getId()).orElse(null);
 
         assertNotNull(actualGenre);
         assertThat(actualGenre).usingRecursiveComparison().isEqualTo(expectedGenre);
@@ -56,10 +55,10 @@ class GenreRepositoryJpaTest {
     @Test
     @DisplayName("удалять жанр по идентификатору")
     void shouldDeleteGenreById() {
-        assertThatCode(() -> genreRepository.getById(EXISTING_GENRE_ID)).doesNotThrowAnyException();
-        int countBefore = genreRepository.getAll().size();
+        assertThatCode(() -> genreRepository.findById(EXISTING_GENRE_ID)).doesNotThrowAnyException();
+        int countBefore = genreRepository.findAll().size();
         genreRepository.deleteById(EXISTING_GENRE_ID);
-        int countAfter = genreRepository.getAll().size();
+        int countAfter = genreRepository.findAll().size();
 
         assertThat(countAfter).isLessThan(countBefore);
     }
@@ -67,7 +66,7 @@ class GenreRepositoryJpaTest {
     @Test
     @DisplayName("возвращать жанр по названию")
     void shouldReturnGenreByName() {
-        Genre actualGenre = genreRepository.getByName(EXISTING_GENRE_NAME).orElse(null);
+        Genre actualGenre = genreRepository.findByName(EXISTING_GENRE_NAME).orElse(null);
         assertNotNull(actualGenre);
         assertThat(actualGenre.getId()).isEqualTo(EXISTING_GENRE_ID);
     }
@@ -76,8 +75,8 @@ class GenreRepositoryJpaTest {
     @DisplayName("обновить название жанра")
     void shouldUpdateNameGenre() {
         Genre genre = new Genre(EXISTING_GENRE_ID, GENRE_NAME_NEW);
-        genreRepository.update(genre);
-        Genre updateGenre = genreRepository.getById(EXISTING_GENRE_ID).orElse(null);
+        genreRepository.save(genre);
+        Genre updateGenre = genreRepository.findById(EXISTING_GENRE_ID).orElse(null);
         assertThat(genre).usingRecursiveComparison().isEqualTo(updateGenre);
     }
 }

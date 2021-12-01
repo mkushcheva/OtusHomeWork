@@ -7,9 +7,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
-import ru.diasoft.library.repository.GenreRepository;
 import ru.diasoft.library.domain.Genre;
-import ru.diasoft.library.utils.MessageSourceUtils;
+import ru.diasoft.library.repository.GenreRepositoryJpa;
 
 import static org.mockito.Mockito.*;
 
@@ -21,7 +20,7 @@ class GenreServiceImplTest {
     private static final String EXISTING_GENRE_NAME = "test";
 
     @Mock
-    private GenreRepository genreRepository;
+    private GenreRepositoryJpa genreRepository;
     @Mock
     private WriterService writerService;
 
@@ -35,20 +34,20 @@ class GenreServiceImplTest {
     @Test
     @DisplayName("Найти существующий жанр в БД")
     void shouldReturnExpectedGenreById() {
-        when(genreRepository.getByName(EXISTING_GENRE_NAME))
+        when(genreRepository.findByName(EXISTING_GENRE_NAME))
                 .thenReturn(java.util.Optional.of(new Genre(EXISTING_GENRE_ID, EXISTING_GENRE_NAME)));
 
         genreService.getByName(EXISTING_GENRE_NAME);
 
-        verify(genreRepository, times(1)).getByName(EXISTING_GENRE_NAME);
+        verify(genreRepository, times(1)).findByName(EXISTING_GENRE_NAME);
     }
 
     @Test
     @DisplayName("Создать жанр в БД, которого нет ")
     void shouldCreateGenre() {
         Genre genre = new Genre(1, EXISTING_GENRE_NAME);
-        when(genreRepository.create(any())).thenReturn(genre);
+        when(genreRepository.save(any())).thenReturn(genre);
         genreService.create(EXISTING_GENRE_NAME);
-        verify(genreRepository, times(1)).create(any());
+        verify(genreRepository, times(1)).save(any());
     }
 }

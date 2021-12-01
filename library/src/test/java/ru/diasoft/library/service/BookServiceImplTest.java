@@ -7,15 +7,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
-import ru.diasoft.library.domain.Comment;
-import ru.diasoft.library.repository.BookRepository;
 import ru.diasoft.library.domain.Author;
 import ru.diasoft.library.domain.Book;
 import ru.diasoft.library.domain.Genre;
-import ru.diasoft.library.utils.MessageSourceUtils;
+import ru.diasoft.library.repository.BookRepositoryJpa;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -34,7 +31,7 @@ class BookServiceImplTest {
     private static final String GENRE_NAME_NEW = "Новый Жанр";
 
     @Mock
-    private BookRepository bookRepository;
+    private BookRepositoryJpa bookRepository;
     @Mock
     private AuthorService authorService;
     @Mock
@@ -58,7 +55,7 @@ class BookServiceImplTest {
     void shouldCreateBook() {
         when(authorService.getByName(AUTHOR_NAME_NEW)).thenReturn(author);
         when(genreService.getByName(GENRE_NAME_NEW)).thenReturn(genre);
-        when(bookRepository.create(any())).thenReturn(book);
+        when(bookRepository.save(any())).thenReturn(book);
 
         Book bookResult = bookService.create(BOOK_TITLE_NEW, AUTHOR_NAME_NEW, GENRE_NAME_NEW);
         assertNotNull(bookResult);
@@ -75,7 +72,7 @@ class BookServiceImplTest {
     void shouldUpdateBook() {
         Book updateBook = new Book(BOOK_ID, "Новое название книги", author, genre, new ArrayList<>());
 
-        when(bookRepository.getById(BOOK_ID)).thenReturn(java.util.Optional.of(book));
+        when(bookRepository.findById(BOOK_ID)).thenReturn(java.util.Optional.of(book));
         when(authorService.getByName(AUTHOR_NAME_NEW)).thenReturn(author);
         when(genreService.getByName(GENRE_NAME_NEW)).thenReturn(genre);
 
@@ -83,16 +80,16 @@ class BookServiceImplTest {
 
         verify(authorService, times(1)).getByName(AUTHOR_NAME_NEW);
         verify(genreService, times(1)).getByName(GENRE_NAME_NEW);
-        verify(bookRepository, times(1)).update(updateBook);
+        verify(bookRepository, times(1)).save(updateBook);
     }
 
     @Test
     @DisplayName("Удалить книгу")
     void shouldDeleteBook() {
-        when(bookRepository.getByTitle(BOOK_TITLE_NEW)).thenReturn(java.util.Optional.of(book));
+        when(bookRepository.findByTitle(BOOK_TITLE_NEW)).thenReturn(java.util.Optional.of(book));
 
         bookService.deleteByTitle(BOOK_TITLE_NEW);
-        verify(bookRepository, times(1)).getByTitle(BOOK_TITLE_NEW);
+        verify(bookRepository, times(1)).findByTitle(BOOK_TITLE_NEW);
         verify(bookRepository, times(1)).deleteById(BOOK_ID);
     }
 }

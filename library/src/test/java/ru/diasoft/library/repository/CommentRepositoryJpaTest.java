@@ -15,30 +15,28 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @DisplayName("Репозиторий для работы с комментариями должен")
 @DataJpaTest
-@Import(CommentRepositoryJpa.class)
 class CommentRepositoryJpaTest {
     private static final String COMMENT_TEXT_NEW = "Новый комментарий";
-    private static final long EXISTING_BOOK_ID = 1; //Волшебник изумрудного города
     private static final long EXISTING_COMMENT_ID = 1;
 
     @Autowired
-    private CommentRepository commentRepository;
+    private CommentRepositoryJpa commentRepository;
 
     @DisplayName("находить все комментарии ")
     @Test
     void shouldFindAllComment() {
-        List<Comment> commentList = commentRepository.getAll();
+        List<Comment> commentList = commentRepository.findAll();
         assertThat(commentList.size()).isEqualTo(4);
     }
 
     @Test
     @DisplayName("добавлять комментарий в БД к существующей книге")
     void shouldCreateCommentTest() {
-        int countBefore = commentRepository.getAll().size();
+        int countBefore = commentRepository.findAll().size();
         Comment newComment = new Comment(0L, COMMENT_TEXT_NEW);
-        Comment createComment = commentRepository.create(newComment);
+        Comment createComment = commentRepository.save(newComment);
 
-        int countAfter = commentRepository.getAll().size();
+        int countAfter = commentRepository.findAll().size();
 
         assertThat(createComment.getCommentText()).isEqualTo(COMMENT_TEXT_NEW);
         assertThat(countAfter).isGreaterThan(countBefore);
@@ -47,10 +45,10 @@ class CommentRepositoryJpaTest {
     @Test
     @DisplayName("удалять комментарий по идентификатору")
     void shouldDeleteCommentById() {
-        assertThatCode(() -> commentRepository.getById(EXISTING_COMMENT_ID)).doesNotThrowAnyException();
-        int countBefore = commentRepository.getAll().size();
+        assertThatCode(() -> commentRepository.findById(EXISTING_COMMENT_ID)).doesNotThrowAnyException();
+        int countBefore = commentRepository.findAll().size();
         commentRepository.deleteById(EXISTING_COMMENT_ID);
-        int countAfter = commentRepository.getAll().size();
+        int countAfter = commentRepository.findAll().size();
 
         assertThat(countAfter).isLessThan(countBefore);
     }
@@ -58,7 +56,7 @@ class CommentRepositoryJpaTest {
     @Test
     @DisplayName("Найти комментарий по id")
     void shouldCommentById() {
-        Comment actualComment = commentRepository.getById(EXISTING_COMMENT_ID).orElse(null);
+        Comment actualComment = commentRepository.findById(EXISTING_COMMENT_ID).orElse(null);
         assertNotNull(actualComment);
         assertThat(actualComment.getId()).isEqualTo(EXISTING_COMMENT_ID);
     }

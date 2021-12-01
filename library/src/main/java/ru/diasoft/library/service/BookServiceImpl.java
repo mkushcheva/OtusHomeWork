@@ -7,7 +7,7 @@ import ru.diasoft.library.domain.Author;
 import ru.diasoft.library.domain.Book;
 import ru.diasoft.library.domain.Comment;
 import ru.diasoft.library.domain.Genre;
-import ru.diasoft.library.repository.BookRepository;
+import ru.diasoft.library.repository.BookRepositoryJpa;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 public class BookServiceImpl implements BookService {
-    private final BookRepository bookRepository;
+    private final BookRepositoryJpa bookRepository;
     private final AuthorService authorService;
     private final GenreService genreService;
 
@@ -28,7 +28,7 @@ public class BookServiceImpl implements BookService {
         //Изначально книга добавляется с пустым комментарием. комментировать книгу можно после ее прочтения.
         List<Comment> comments = new ArrayList<>();
 
-        Book book = bookRepository.create(
+        Book book = bookRepository.save(
                 new Book(
                         0,
                         title,
@@ -44,7 +44,7 @@ public class BookServiceImpl implements BookService {
     @Transactional
     public void update(Long id, String title, String authorName, String genreName) {
         //У книги нельзя обновить комментарий
-        Optional<Book> book = bookRepository.getById(id);
+        Optional<Book> book = bookRepository.findById(id);
 
         if (book.isPresent()) {
             Book bookUpdate = book.get();
@@ -52,7 +52,7 @@ public class BookServiceImpl implements BookService {
             bookUpdate.setGenre(getGenre(genreName));
             bookUpdate.setTitle(title);
 
-            bookRepository.update(bookUpdate);
+            bookRepository.save(bookUpdate);
             writerService.printMessage("book.update.successful");
         } else {
             writerService.printMessage("book.notFound");
@@ -62,7 +62,7 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public void deleteByTitle(String title) {
-        Optional<Book> book = bookRepository.getByTitle(title);
+        Optional<Book> book = bookRepository.findByTitle(title);
 
         if (book.isPresent()) {
             bookRepository.deleteById(book.get().getId());
@@ -75,7 +75,7 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional(readOnly = true)
     public void printInfoBook(String title) {
-        Optional<Book> book = bookRepository.getByTitle(title);
+        Optional<Book> book = bookRepository.findByTitle(title);
 
         if (book.isPresent()) {
             writerService.printInfoBook(book.get());
@@ -87,18 +87,18 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional(readOnly = true)
     public void printAllBooks() {
-        writerService.printAllBooks(bookRepository.getAll());
+        writerService.printAllBooks(bookRepository.findAll());
     }
 
     @Override
     @Transactional
     public void addCommentToBook(String title, String commentText) {
-        Optional<Book> book = bookRepository.getByTitle(title);
+        Optional<Book> book = bookRepository.findByTitle(title);
 
         if (book.isPresent()) {
             Book commentedBook = book.get();
             commentedBook.getComments().add(new Comment(0, commentText));
-            bookRepository.create(commentedBook);
+            bookRepository.save(commentedBook);
         } else {
             writerService.printMessage("book.notFound");
         }

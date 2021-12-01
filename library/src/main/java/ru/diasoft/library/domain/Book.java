@@ -16,8 +16,6 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "book")
-@NamedEntityGraph(name = "book-author-genre-graph",
-        attributeNodes = {@NamedAttributeNode("author"), @NamedAttributeNode("genre")})
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,12 +25,12 @@ public class Book {
     @Column(name = "book_title", nullable = false, unique = true)
     private String title;
 
-    @OneToOne(targetEntity = Author.class, cascade = CascadeType.ALL)
-    @JoinColumn(name = "author_id")
+    @ManyToOne
+    @JoinColumn(name = "author_id", referencedColumnName = "author_id")
     private Author author;
 
-    @OneToOne(targetEntity = Genre.class, cascade = CascadeType.ALL)
-    @JoinColumn(name = "genre_id")
+    @ManyToOne
+    @JoinColumn(name = "genre_id", referencedColumnName = "genre_id")
     private Genre genre;
 
     @Fetch(value = FetchMode.SUBSELECT)
