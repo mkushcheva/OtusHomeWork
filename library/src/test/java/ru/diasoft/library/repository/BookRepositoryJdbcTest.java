@@ -20,7 +20,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Репозиторий для работы с книгами должен")
 @DataJpaTest
-@Import(BookRepositoryJpa.class)
 class BookRepositoryJdbcTest {
     private static final String BOOK_TITLE_NEW = "Новая книга";
     private static final long BOOK_ID_NEW = 100;
@@ -28,7 +27,7 @@ class BookRepositoryJdbcTest {
     private static final String EXISTING_BOOK_TITLE = "Волшебник изумрудного города";
 
     @Autowired
-    private BookRepository bookRepository;
+    private BookRepositoryJpa bookRepository;
     @Autowired
     private TestEntityManager em;
 
@@ -39,12 +38,12 @@ class BookRepositoryJdbcTest {
     @Test
     @DisplayName("добавлять книгу В БД")
     void shouldCreateBookTest() {
-        int countBefore = bookRepository.getAll().size();
+        int countBefore = bookRepository.findAll().size();
 
         Book createBook = new Book(BOOK_ID_NEW, BOOK_TITLE_NEW, testAuthor, testGenre, comments);
-        bookRepository.create(createBook);
+        bookRepository.save(createBook);
 
-        int countAfter = bookRepository.getAll().size();
+        int countAfter = bookRepository.findAll().size();
 
         assertNotNull(createBook);
         assertThat(createBook.getTitle()).isEqualTo(BOOK_TITLE_NEW);
@@ -54,7 +53,7 @@ class BookRepositoryJdbcTest {
     @Test
     @DisplayName("найти 9 книг в БД")
     void shouldFindAllBooks() {
-        List<Book> bookList = bookRepository.getAll();
+        List<Book> bookList = bookRepository.findAll();
         assertThat(bookList).isNotNull().hasSize(9)
                 .allMatch(b -> !b.getTitle().equals(""))
                 .allMatch(b -> b.getAuthor() != null)
@@ -64,7 +63,7 @@ class BookRepositoryJdbcTest {
     @Test
     @DisplayName("возвращать книгу по идентификатору")
     void shouldReturnBookById() {
-        Book findBook = bookRepository.getById(EXISTING_BOOK_ID).orElse(null);
+        Book findBook = bookRepository.findById(EXISTING_BOOK_ID).orElse(null);
 
         assertNotNull(findBook);
         assertThat(findBook.getTitle()).isEqualTo(EXISTING_BOOK_TITLE);
@@ -73,7 +72,7 @@ class BookRepositoryJdbcTest {
     @Test
     @DisplayName("возвращать книгу по названию")
     void shouldReturnBookByTitle() {
-        Book findBook = bookRepository.getByTitle(EXISTING_BOOK_TITLE).orElse(null);
+        Book findBook = bookRepository.findByTitle(EXISTING_BOOK_TITLE).orElse(null);
 
         assertNotNull(findBook);
         assertThat(findBook.getId()).isEqualTo(EXISTING_BOOK_ID);
@@ -82,10 +81,10 @@ class BookRepositoryJdbcTest {
     @Test
     @DisplayName("удалять книгу по идентификатору")
     void shouldDeleteBookById() {
-        assertThatCode(() -> bookRepository.getById(EXISTING_BOOK_ID)).doesNotThrowAnyException();
-        int countBefore = bookRepository.getAll().size();
+        assertThatCode(() -> bookRepository.findById(EXISTING_BOOK_ID)).doesNotThrowAnyException();
+        int countBefore = bookRepository.findAll().size();
         bookRepository.deleteById(EXISTING_BOOK_ID);
-        int countAfter = bookRepository.getAll().size();
+        int countAfter = bookRepository.findAll().size();
 
         assertThat(countAfter).isLessThan(countBefore);
     }
@@ -98,9 +97,9 @@ class BookRepositoryJdbcTest {
 
         Book newBook = new Book(EXISTING_BOOK_ID, BOOK_TITLE_NEW, oldBook.getAuthor(), oldBook.getGenre(), oldBook.getComments());
 
-        bookRepository.update(newBook);
+        bookRepository.save(newBook);
 
-        Book afterUpdateBook = bookRepository.getById(EXISTING_BOOK_ID).orElse(null);
+        Book afterUpdateBook = bookRepository.findById(EXISTING_BOOK_ID).orElse(null);
 
         assertNotEquals(afterUpdateBook.getTitle(), oldBook.getTitle());
         assertEquals(afterUpdateBook.getAuthor(), oldBook.getAuthor());
