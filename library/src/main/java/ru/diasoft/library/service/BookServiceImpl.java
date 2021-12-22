@@ -6,14 +6,14 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.diasoft.library.domain.Author;
 import ru.diasoft.library.domain.Book;
 import ru.diasoft.library.domain.Genre;
-import ru.diasoft.library.repository.BookRepositoryJpa;
+import ru.diasoft.library.repository.BookRepository;
 
 import java.util.ArrayList;
 
 @RequiredArgsConstructor
 @Service
 public class BookServiceImpl implements BookService {
-    private final BookRepositoryJpa bookRepository;
+    private final BookRepository bookRepository;
     private final AuthorService authorService;
     private final GenreService genreService;
 

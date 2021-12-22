@@ -4,7 +4,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Import;
 import ru.diasoft.library.domain.Genre;
 
 import java.util.List;
@@ -15,13 +14,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @DisplayName("Репозиторий для работы с жанрами должен")
 @DataJpaTest
-class GenreRepositoryJpaTest {
+class GenreRepositoryTest {
     private static final String GENRE_NAME_NEW = "Новый Жанр";
     private static final long EXISTING_GENRE_ID = 1;
     private static final String EXISTING_GENRE_NAME = "Сказка";
 
     @Autowired
-    private GenreRepositoryJpa genreRepository;
+    private GenreRepository genreRepository;
 
     @Test
     @DisplayName("найти 3 жанра в таблице БД")

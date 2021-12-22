@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.diasoft.library.domain.Book;
 import ru.diasoft.library.domain.Comment;
 import ru.diasoft.library.exception.NotFoundException;
-import ru.diasoft.library.repository.BookRepositoryJpa;
+import ru.diasoft.library.repository.BookRepository;
 import ru.diasoft.library.rest.dto.BookDto;
 import ru.diasoft.library.rest.mapper.BookMapper;
 import ru.diasoft.library.service.BookService;
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RestController
 public class BookController {
-    private final BookRepositoryJpa repository;
+    private final BookRepository repository;
     private final BookMapper mapper;
     private final MessageSourceUtils messageSource;
     private final BookService bookService;

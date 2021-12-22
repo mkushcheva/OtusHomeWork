@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import ru.diasoft.library.domain.Author;
 import ru.diasoft.library.domain.Book;
 import ru.diasoft.library.domain.Genre;
-import ru.diasoft.library.repository.BookRepositoryJpa;
+import ru.diasoft.library.repository.BookRepository;
 
 import java.util.ArrayList;
 
@@ -31,7 +31,7 @@ class BookServiceImplTest {
     private static final String GENRE_NAME_NEW = "Новый Жанр";
 
     @Mock
-    private BookRepositoryJpa bookRepository;
+    private BookRepository bookRepository;
     @Mock
     private AuthorService authorService;
     @Mock

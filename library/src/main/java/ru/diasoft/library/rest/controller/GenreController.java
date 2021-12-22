@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.diasoft.library.domain.Genre;
 import ru.diasoft.library.exception.NotFoundException;
-import ru.diasoft.library.repository.GenreRepositoryJpa;
+import ru.diasoft.library.repository.GenreRepository;
 import ru.diasoft.library.rest.dto.GenreDto;
 import ru.diasoft.library.rest.mapper.GenreMapper;
 import ru.diasoft.library.utils.MessageSourceUtils;
@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RestController
 public class GenreController {
-    private final GenreRepositoryJpa repository;
+    private final GenreRepository repository;
     private final GenreMapper mapper;
     private final MessageSourceUtils messageSource;
 

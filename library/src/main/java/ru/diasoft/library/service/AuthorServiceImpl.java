@@ -4,12 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.diasoft.library.domain.Author;
-import ru.diasoft.library.repository.AuthorRepositoryJpa;
+import ru.diasoft.library.repository.AuthorRepository;
 
 @RequiredArgsConstructor
 @Service
 public class AuthorServiceImpl implements AuthorService {
-    private final AuthorRepositoryJpa authorRepository;
+    private final AuthorRepository authorRepository;
 
     @Override
     public Author getByName(String name) {

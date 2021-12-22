@@ -4,7 +4,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Import;
 import ru.diasoft.library.domain.Author;
 
 import java.util.List;
@@ -15,13 +14,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @DisplayName("Репозиторий для работы с авторами должен")
 @DataJpaTest
-class AuthorRepositoryJpaTest {
+class AuthorRepositoryTest {
     private static final String AUTHOR_NAME_NEW = "Новый Автор";
     private static final long EXISTING_AUTHOR_ID = 1;
     private static final String EXISTING_AUTHOR_NAME = "Пушкин А.С. test";
 
     @Autowired
-    private AuthorRepositoryJpa authorRepository;
+    private AuthorRepository authorRepository;
 
     @Test
     @DisplayName("найти 3 автора в таблице БД")

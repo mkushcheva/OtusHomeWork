@@ -4,12 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.diasoft.library.domain.Genre;
-import ru.diasoft.library.repository.GenreRepositoryJpa;
+import ru.diasoft.library.repository.GenreRepository;
 
 @RequiredArgsConstructor
 @Service
 public class GenreServiceImpl implements GenreService {
-    private final GenreRepositoryJpa genreRepository;
+    private final GenreRepository genreRepository;
 
     @Override
     public Genre getByName(String name) {

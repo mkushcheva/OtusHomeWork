@@ -8,7 +8,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import ru.diasoft.library.domain.Author;
-import ru.diasoft.library.repository.AuthorRepositoryJpa;
+import ru.diasoft.library.repository.AuthorRepository;
 
 import static org.mockito.Mockito.*;
 
@@ -20,7 +20,7 @@ class AuthorServiceImplTest {
     private static final String EXISTING_AUTHOR_NAME = "test";
 
     @Mock
-    private AuthorRepositoryJpa authorRepository;
+    private AuthorRepository authorRepository;
 
     private AuthorServiceImpl authorService;
 

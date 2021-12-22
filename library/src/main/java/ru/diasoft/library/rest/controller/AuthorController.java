@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.diasoft.library.domain.Author;
 import ru.diasoft.library.exception.NotFoundException;
-import ru.diasoft.library.repository.AuthorRepositoryJpa;
+import ru.diasoft.library.repository.AuthorRepository;
 import ru.diasoft.library.rest.dto.AuthorDto;
 import ru.diasoft.library.rest.mapper.AuthorMapper;
 import ru.diasoft.library.utils.MessageSourceUtils;
@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RestController
 public class AuthorController {
-    private final AuthorRepositoryJpa repository;
+    private final AuthorRepository repository;
     private final AuthorMapper mapper;
     private final MessageSourceUtils messageSource;
 
