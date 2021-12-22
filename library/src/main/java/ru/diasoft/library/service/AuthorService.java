@@ -6,8 +6,4 @@ public interface AuthorService {
     Author getByName(String name);
 
     Author create(String name);
-
-    void printAllAuthors();
-
-    void deleteByName(String name);
 }

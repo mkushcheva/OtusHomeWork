@@ -21,14 +21,12 @@ class AuthorServiceImplTest {
 
     @Mock
     private AuthorRepositoryJpa authorRepository;
-    @Mock
-    private WriterService writerService;
 
     private AuthorServiceImpl authorService;
 
     @BeforeEach
     void setUp() {
-        authorService = new AuthorServiceImpl(authorRepository, writerService);
+        authorService = new AuthorServiceImpl(authorRepository);
     }
 
     @Test

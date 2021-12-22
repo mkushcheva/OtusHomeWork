@@ -21,14 +21,11 @@ class GenreServiceImplTest {
 
     @Mock
     private GenreRepositoryJpa genreRepository;
-    @Mock
-    private WriterService writerService;
-
     private GenreServiceImpl genreService;
 
     @BeforeEach
     void setUp() {
-        genreService = new GenreServiceImpl(genreRepository, writerService);
+        genreService = new GenreServiceImpl(genreRepository);
     }
 
     @Test

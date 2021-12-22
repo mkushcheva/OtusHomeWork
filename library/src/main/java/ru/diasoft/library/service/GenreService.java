@@ -6,8 +6,4 @@ public interface GenreService {
     Genre getByName(String name);
 
     Genre create(String name);
-
-    void printAllGenres();
-
-    void deleteByName(String name);
 }
