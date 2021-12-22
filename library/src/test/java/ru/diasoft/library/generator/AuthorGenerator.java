@@ -8,13 +8,13 @@ import java.util.List;
 public class AuthorGenerator {
     /*Авторы созданные в БД*/
     public static final Long AUTHOR_ID1 = 1L;
-    public static final String AUTHOR_NAME1 = "Пушкин А.С. test";
+    public static final String AUTHOR_NAME1 = "Пушкин А.С.";
 
     public static final Long AUTHOR_ID2 = 2L;
-    public static final String AUTHOR_NAME2 = "Волков А.М. test";
+    public static final String AUTHOR_NAME2 = "Волков А.М.";
 
     public static final Long AUTHOR_ID3 = 3L;
-    public static final String AUTHOR_NAME3 = "Носов Н.Н. test";
+    public static final String AUTHOR_NAME3 = "Носов Н.Н.";
 
     public static final Long AUTHOR_IDNEW = 4L;
     public static final String AUTHOR_NAMENEW = "Новый Автор";

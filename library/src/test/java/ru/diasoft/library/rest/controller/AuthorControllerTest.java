@@ -33,7 +33,7 @@ class AuthorControllerTest {
     }
 
     @Test
-    @DisplayName("вернуть автора 2=Волков А.М. test")
+    @DisplayName("вернуть автора 2=Волков А.М")
     void shouldGetAllAuthorByID2Test() throws Exception {
         mvc.perform(get("/author/2"))
                 .andExpect(status().isOk())

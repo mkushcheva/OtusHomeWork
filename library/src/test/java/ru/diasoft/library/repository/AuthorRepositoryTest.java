@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class AuthorRepositoryTest {
     private static final String AUTHOR_NAME_NEW = "Новый Автор";
     private static final long EXISTING_AUTHOR_ID = 1;
-    private static final String EXISTING_AUTHOR_NAME = "Пушкин А.С. test";
+    private static final String EXISTING_AUTHOR_NAME = "Пушкин А.С.";
 
     @Autowired
     private AuthorRepository authorRepository;

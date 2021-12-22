@@ -15,15 +15,15 @@ public class BookGenerator {
         comments.add("Очень интерсеная");
         comments.add("Советую почитать");
 
-        bookDtoList.add(getBookDto(1, "Волшебник изумрудного города", "Волков А.М. test", "Сказка", comments));
+        bookDtoList.add(getBookDto(1, "Волшебник изумрудного города", "Волков А.М.", "Сказка", comments));
         bookDtoList.add(getBookID2());
-        bookDtoList.add(getBookDto(3, "Сказка о золотом петушке", "Пушкин А.С. test", "Сказка", new ArrayList<>()));
-        bookDtoList.add(getBookDto(4, "Скитания", "Волков А.М. test", "Роман", new ArrayList<>()));
-        bookDtoList.add(getBookDto(5, "Зодчие", "Волков А.М. test", "Роман", new ArrayList<>()));
-        bookDtoList.add(getBookDto(6, "Незнайка на луне", "Носов Н.Н. test", "Роман", new ArrayList<>()));
-        bookDtoList.add(getBookDto(7, "Няне", "Пушкин А.С. test", "Стихотворение", new ArrayList<>()));
-        bookDtoList.add(getBookDto(8, "Мечты", "Волков А.М. test", "Стихотворение", new ArrayList<>()));
-        bookDtoList.add(getBookDto(9, "Разведчики", "Волков А.М. test", "Стихотворение", new ArrayList<>()));
+        bookDtoList.add(getBookDto(3, "Сказка о золотом петушке", "Пушкин А.С.", "Сказка", new ArrayList<>()));
+        bookDtoList.add(getBookDto(4, "Скитания", "Волков А.М.", "Роман", new ArrayList<>()));
+        bookDtoList.add(getBookDto(5, "Зодчие", "Волков А.М.", "Роман", new ArrayList<>()));
+        bookDtoList.add(getBookDto(6, "Незнайка на луне", "Носов Н.Н.", "Роман", new ArrayList<>()));
+        bookDtoList.add(getBookDto(7, "Няне", "Пушкин А.С.", "Стихотворение", new ArrayList<>()));
+        bookDtoList.add(getBookDto(8, "Мечты", "Волков А.М.", "Стихотворение", new ArrayList<>()));
+        bookDtoList.add(getBookDto(9, "Разведчики", "Волков А.М.", "Стихотворение", new ArrayList<>()));
         return bookDtoList;
     }
 
@@ -31,11 +31,11 @@ public class BookGenerator {
         List<String> comments = new ArrayList<>();
         comments.add("Книга о жадкой старухе");
 
-        return getBookDto(2, "Сказка о рыбаке и рыбке", "Пушкин А.С. test", "Сказка", comments);
+        return getBookDto(2, "Сказка о рыбаке и рыбке", "Пушкин А.С.", "Сказка", comments);
     }
 
     public static BookDto getNewBook() {
-        return getBookDto(10l, "Новая книга", "Пушкин А.С. test", "Сказка", new ArrayList<>());
+        return getBookDto(10l, "Новая книга", "Пушкин А.С.", "Сказка", new ArrayList<>());
     }
 
     private static BookDto getBookDto(long id, String title, String authorName, String genreName, List<String> comments) {
