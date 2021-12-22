@@ -9,6 +9,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import ru.diasoft.library.domain.Author;
 import ru.diasoft.library.repository.AuthorRepository;
+import ru.diasoft.library.rest.mapper.AuthorMapper;
+import ru.diasoft.library.utils.MessageSourceUtils;
 
 import static org.mockito.Mockito.*;
 
@@ -21,12 +23,16 @@ class AuthorServiceImplTest {
 
     @Mock
     private AuthorRepository authorRepository;
+    @Mock
+    private AuthorMapper mapper;
+    @Mock
+    private MessageSourceUtils messageSource;
 
     private AuthorServiceImpl authorService;
 
     @BeforeEach
     void setUp() {
-        authorService = new AuthorServiceImpl(authorRepository);
+        authorService = new AuthorServiceImpl(authorRepository, mapper, messageSource);
     }
 
     @Test

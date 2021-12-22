@@ -9,6 +9,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import ru.diasoft.library.domain.Genre;
 import ru.diasoft.library.repository.GenreRepository;
+import ru.diasoft.library.rest.mapper.GenreMapper;
+import ru.diasoft.library.utils.MessageSourceUtils;
 
 import static org.mockito.Mockito.*;
 
@@ -21,11 +23,16 @@ class GenreServiceImplTest {
 
     @Mock
     private GenreRepository genreRepository;
+    @Mock
+    private GenreMapper mapper;
+    @Mock
+    private MessageSourceUtils messageSource;
+
     private GenreServiceImpl genreService;
 
     @BeforeEach
     void setUp() {
-        genreService = new GenreServiceImpl(genreRepository);
+        genreService = new GenreServiceImpl(genreRepository, mapper, messageSource);
     }
 
     @Test

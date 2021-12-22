@@ -11,6 +11,8 @@ import ru.diasoft.library.domain.Author;
 import ru.diasoft.library.domain.Book;
 import ru.diasoft.library.domain.Genre;
 import ru.diasoft.library.repository.BookRepository;
+import ru.diasoft.library.rest.mapper.BookMapper;
+import ru.diasoft.library.utils.MessageSourceUtils;
 
 import java.util.ArrayList;
 
@@ -36,6 +38,10 @@ class BookServiceImplTest {
     private AuthorService authorService;
     @Mock
     private GenreService genreService;
+    @Mock
+    private BookMapper mapper;
+    @Mock
+    private MessageSourceUtils messageSource;
 
     private BookServiceImpl bookService;
 
@@ -45,7 +51,7 @@ class BookServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        bookService = new BookServiceImpl(bookRepository, authorService, genreService);
+        bookService = new BookServiceImpl(bookRepository, authorService, genreService, mapper, messageSource);
     }
 
     @Test

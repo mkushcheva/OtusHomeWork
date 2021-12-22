@@ -10,11 +10,6 @@ import java.util.stream.Collectors;
 @Component
 public class BookMapperImpl implements BookMapper{
     @Override
-    public Book bookDtoToBookDomain(BookDto bookDto) {
-        return null;
-    }
-
-    @Override
     public BookDto bookDomainToBookDto(Book bookDomain) {
         return new BookDto(
                 bookDomain.getId(),

@@ -40,7 +40,7 @@ class BookControllerTest {
                 .andExpect(content().json(mapper.writeValueAsString(BookGenerator.getBookID2())));
     }
 
-   /* @Test
+    @Test
     @DisplayName("сохранить новую книгу и удалить ее")
     void shouldSaveNewBookAndDeleteNewBook() throws Exception {
         String expectedResult = mapper.writeValueAsString(BookGenerator.getNewBook());
@@ -52,5 +52,5 @@ class BookControllerTest {
 
         mvc.perform(delete("/book/10"))
                 .andExpect(status().isOk());
-    }*/
+    }
 }

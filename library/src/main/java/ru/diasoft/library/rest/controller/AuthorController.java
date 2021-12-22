@@ -2,45 +2,33 @@ package ru.diasoft.library.rest.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import ru.diasoft.library.domain.Author;
-import ru.diasoft.library.exception.NotFoundException;
-import ru.diasoft.library.repository.AuthorRepository;
 import ru.diasoft.library.rest.dto.AuthorDto;
-import ru.diasoft.library.rest.mapper.AuthorMapper;
-import ru.diasoft.library.utils.MessageSourceUtils;
+import ru.diasoft.library.service.AuthorService;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
 public class AuthorController {
-    private final AuthorRepository repository;
-    private final AuthorMapper mapper;
-    private final MessageSourceUtils messageSource;
+    private final AuthorService authorService;
 
     @GetMapping("/author")
     public List<AuthorDto> getAllAuthors() {
-        return repository.findAll().stream()
-                .map(mapper::authorDomainToAuthorDto)
-                .collect(Collectors.toList());
+        return authorService.getAllAuthorDto();
     }
 
     @GetMapping("/author/{id}")
-    public AuthorDto getllAuthorById(@PathVariable("id") long id) {
-        Author author = repository.findById(id).orElseThrow(
-                () -> new NotFoundException(messageSource.getMessage("author.notFound")));
-        return mapper.authorDomainToAuthorDto(author);
+    public AuthorDto getAuthorById(@PathVariable("id") long id) {
+        return authorService.getAuthorDtoByID(id);
     }
 
     @PostMapping("/author")
     public AuthorDto createNewAuthor(@RequestBody AuthorDto dto) {
-        Author author = mapper.authorDtoToAuthorDomain(dto);
-        return mapper.authorDomainToAuthorDto(repository.save(author));
+        return authorService.createNewAuthorDto(dto);
     }
 
     @DeleteMapping("/author/{id}")
     public void deleteById(@PathVariable("id") long id) {
-        repository.deleteById(id);
+        authorService.deleteById(id);
     }
 }

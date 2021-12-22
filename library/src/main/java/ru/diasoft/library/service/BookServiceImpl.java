@@ -5,10 +5,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.diasoft.library.domain.Author;
 import ru.diasoft.library.domain.Book;
+import ru.diasoft.library.domain.Comment;
 import ru.diasoft.library.domain.Genre;
+import ru.diasoft.library.exception.NotFoundException;
 import ru.diasoft.library.repository.BookRepository;
+import ru.diasoft.library.rest.dto.BookDto;
+import ru.diasoft.library.rest.mapper.BookMapper;
+import ru.diasoft.library.utils.MessageSourceUtils;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -16,6 +23,8 @@ public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final AuthorService authorService;
     private final GenreService genreService;
+    private final BookMapper mapper;
+    private final MessageSourceUtils messageSource;
 
     @Override
     @Transactional
@@ -29,6 +38,41 @@ public class BookServiceImpl implements BookService {
                         getGenre(genreName),
                         new ArrayList<>())
         );
+    }
+
+    @Override
+    public void deleteById(long id) {
+        bookRepository.deleteById(id);
+    }
+
+    @Override
+    public List<BookDto> getAllBookDto() {
+        return bookRepository.findAll().stream()
+                .map(mapper::bookDomainToBookDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public BookDto getBookDtoById(long id) {
+        Book book = bookRepository.findById(id).orElseThrow(
+                () -> new NotFoundException(messageSource.getMessage("book.notFound")));
+        return mapper.bookDomainToBookDto(book);
+    }
+
+    @Override
+    @Transactional
+    public BookDto createNewBookDto(BookDto dto) {
+        Book book = create(dto.getTitle(), dto.getAuthorName(), dto.getGenreName());
+        return mapper.bookDomainToBookDto(book);
+    }
+
+    @Override
+    public BookDto addCommentById(long id, String comment) {
+        Book book = bookRepository.findById(id).orElseThrow(
+                () -> new NotFoundException(messageSource.getMessage("book.notFound")));
+
+        book.getComments().add(new Comment(0, comment));
+        return mapper.bookDomainToBookDto(bookRepository.save(book));
     }
 
     private Author getAuthor(String authorName) {
