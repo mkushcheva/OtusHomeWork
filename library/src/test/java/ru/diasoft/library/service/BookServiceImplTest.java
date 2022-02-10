@@ -10,7 +10,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import ru.diasoft.library.domain.Author;
 import ru.diasoft.library.domain.Book;
 import ru.diasoft.library.domain.Genre;
-import ru.diasoft.library.repository.BookRepositoryJpa;
+import ru.diasoft.library.repository.BookRepository;
+import ru.diasoft.library.rest.mapper.BookMapper;
+import ru.diasoft.library.utils.MessageSourceUtils;
 
 import java.util.ArrayList;
 
@@ -31,13 +33,15 @@ class BookServiceImplTest {
     private static final String GENRE_NAME_NEW = "Новый Жанр";
 
     @Mock
-    private BookRepositoryJpa bookRepository;
+    private BookRepository bookRepository;
     @Mock
     private AuthorService authorService;
     @Mock
     private GenreService genreService;
     @Mock
-    private WriterService writerService;
+    private BookMapper mapper;
+    @Mock
+    private MessageSourceUtils messageSource;
 
     private BookServiceImpl bookService;
 
@@ -47,7 +51,7 @@ class BookServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        bookService = new BookServiceImpl(bookRepository, authorService, genreService, writerService);
+        bookService = new BookServiceImpl(bookRepository, authorService, genreService, mapper, messageSource);
     }
 
     @Test
@@ -65,31 +69,5 @@ class BookServiceImplTest {
 
         verify(authorService, times(1)).getByName(AUTHOR_NAME_NEW);
         verify(genreService, times(1)).getByName(GENRE_NAME_NEW);
-    }
-
-    @Test
-    @DisplayName("Обновить название книги")
-    void shouldUpdateBook() {
-        Book updateBook = new Book(BOOK_ID, "Новое название книги", author, genre, new ArrayList<>());
-
-        when(bookRepository.findById(BOOK_ID)).thenReturn(java.util.Optional.of(book));
-        when(authorService.getByName(AUTHOR_NAME_NEW)).thenReturn(author);
-        when(genreService.getByName(GENRE_NAME_NEW)).thenReturn(genre);
-
-        bookService.update(BOOK_ID, "Новое название книги", AUTHOR_NAME_NEW, GENRE_NAME_NEW);
-
-        verify(authorService, times(1)).getByName(AUTHOR_NAME_NEW);
-        verify(genreService, times(1)).getByName(GENRE_NAME_NEW);
-        verify(bookRepository, times(1)).save(updateBook);
-    }
-
-    @Test
-    @DisplayName("Удалить книгу")
-    void shouldDeleteBook() {
-        when(bookRepository.findByTitle(BOOK_TITLE_NEW)).thenReturn(java.util.Optional.of(book));
-
-        bookService.deleteByTitle(BOOK_TITLE_NEW);
-        verify(bookRepository, times(1)).findByTitle(BOOK_TITLE_NEW);
-        verify(bookRepository, times(1)).deleteById(BOOK_ID);
     }
 }

@@ -7,101 +7,72 @@ import ru.diasoft.library.domain.Author;
 import ru.diasoft.library.domain.Book;
 import ru.diasoft.library.domain.Comment;
 import ru.diasoft.library.domain.Genre;
-import ru.diasoft.library.repository.BookRepositoryJpa;
+import ru.diasoft.library.exception.NotFoundException;
+import ru.diasoft.library.repository.BookRepository;
+import ru.diasoft.library.rest.dto.BookDto;
+import ru.diasoft.library.rest.mapper.BookMapper;
+import ru.diasoft.library.utils.MessageSourceUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 public class BookServiceImpl implements BookService {
-    private final BookRepositoryJpa bookRepository;
+    private final BookRepository bookRepository;
     private final AuthorService authorService;
     private final GenreService genreService;
-
-    private final WriterService writerService;
+    private final BookMapper mapper;
+    private final MessageSourceUtils messageSource;
 
     @Override
     @Transactional
     public Book create(String title, String authorName, String genreName) {
         //Изначально книга добавляется с пустым комментарием. комментировать книгу можно после ее прочтения.
-        List<Comment> comments = new ArrayList<>();
-
-        Book book = bookRepository.save(
+        return bookRepository.save(
                 new Book(
                         0,
                         title,
-                        authorService.getByName(authorName),
-                        genreService.getByName(genreName),
-                        comments)
+                        getAuthor(authorName),
+                        getGenre(genreName),
+                        new ArrayList<>())
         );
-        writerService.printMessage("book.create.successful", new Object[]{book});
-        return book;
+    }
+
+    @Override
+    public void deleteById(long id) {
+        bookRepository.deleteById(id);
+    }
+
+    @Override
+    public List<BookDto> getAllBookDto() {
+        return bookRepository.findAll().stream()
+                .map(mapper::bookDomainToBookDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public BookDto getBookDtoById(long id) {
+        Book book = bookRepository.findById(id).orElseThrow(
+                () -> new NotFoundException(messageSource.getMessage("book.notFound")));
+        return mapper.bookDomainToBookDto(book);
     }
 
     @Override
     @Transactional
-    public void update(Long id, String title, String authorName, String genreName) {
-        //У книги нельзя обновить комментарий
-        Optional<Book> book = bookRepository.findById(id);
-
-        if (book.isPresent()) {
-            Book bookUpdate = book.get();
-            bookUpdate.setAuthor(getAuthor(authorName));
-            bookUpdate.setGenre(getGenre(genreName));
-            bookUpdate.setTitle(title);
-
-            bookRepository.save(bookUpdate);
-            writerService.printMessage("book.update.successful");
-        } else {
-            writerService.printMessage("book.notFound");
-        }
+    public BookDto createNewBookDto(BookDto dto) {
+        Book book = create(dto.getTitle(), dto.getAuthorName(), dto.getGenreName());
+        return mapper.bookDomainToBookDto(book);
     }
 
     @Override
-    @Transactional
-    public void deleteByTitle(String title) {
-        Optional<Book> book = bookRepository.findByTitle(title);
+    public BookDto addCommentById(long id, String comment) {
+        Book book = bookRepository.findById(id).orElseThrow(
+                () -> new NotFoundException(messageSource.getMessage("book.notFound")));
 
-        if (book.isPresent()) {
-            bookRepository.deleteById(book.get().getId());
-            writerService.printMessage("book.delete.successful", new Object[]{title});
-        } else {
-            writerService.printMessage("book.notFound");
-        }
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public void printInfoBook(String title) {
-        Optional<Book> book = bookRepository.findByTitle(title);
-
-        if (book.isPresent()) {
-            writerService.printInfoBook(book.get());
-        } else {
-            writerService.printMessage("book.notFound");
-        }
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public void printAllBooks() {
-        writerService.printAllBooks(bookRepository.findAll());
-    }
-
-    @Override
-    @Transactional
-    public void addCommentToBook(String title, String commentText) {
-        Optional<Book> book = bookRepository.findByTitle(title);
-
-        if (book.isPresent()) {
-            Book commentedBook = book.get();
-            commentedBook.getComments().add(new Comment(0, commentText));
-            bookRepository.save(commentedBook);
-        } else {
-            writerService.printMessage("book.notFound");
-        }
+        book.getComments().add(new Comment(0, comment));
+        return mapper.bookDomainToBookDto(bookRepository.save(book));
     }
 
     private Author getAuthor(String authorName) {

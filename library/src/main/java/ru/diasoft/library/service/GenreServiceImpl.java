@@ -4,15 +4,21 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.diasoft.library.domain.Genre;
-import ru.diasoft.library.repository.GenreRepositoryJpa;
+import ru.diasoft.library.exception.NotFoundException;
+import ru.diasoft.library.repository.GenreRepository;
+import ru.diasoft.library.rest.dto.GenreDto;
+import ru.diasoft.library.rest.mapper.GenreMapper;
+import ru.diasoft.library.utils.MessageSourceUtils;
 
-import java.util.Optional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 public class GenreServiceImpl implements GenreService {
-    private final GenreRepositoryJpa genreRepository;
-    private final WriterService writerService;
+    private final GenreRepository genreRepository;
+    private final GenreMapper mapper;
+    private final MessageSourceUtils messageSource;
 
     @Override
     public Genre getByName(String name) {
@@ -22,27 +28,31 @@ public class GenreServiceImpl implements GenreService {
     @Override
     @Transactional
     public Genre create(String name) {
-        Genre genre = genreRepository.save(new Genre(0, name));
-        writerService.printMessage("genre.create.successful", new Object[]{genre});
-        return genre;
+        return genreRepository.save(new Genre(0, name));
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public void printAllGenres() {
-        writerService.printAllGenres(genreRepository.findAll());
+    public void deleteById(long id) {
+        genreRepository.deleteById(id);
     }
 
     @Override
-    @Transactional
-    public void deleteByName(String name) {
-        Optional<Genre> genre = genreRepository.findByName(name);
+    public List<GenreDto> getAllGenreDto() {
+        return genreRepository.findAll().stream()
+                .map(mapper::genreDomainToGenreDto)
+                .collect(Collectors.toList());
+    }
 
-        if (genre.isPresent()) {
-            genreRepository.deleteById(genre.get().getId());
-            writerService.printMessage("genre.delete.successful", new Object[]{name});
-        } else {
-            writerService.printMessage("genre.notFound");
-        }
+    @Override
+    public GenreDto getGenreDtoById(long id) {
+        Genre genre = genreRepository.findById(id).orElseThrow(
+                () -> new NotFoundException(messageSource.getMessage("genre.notFound")));
+        return mapper.genreDomainToGenreDto(genre);
+    }
+
+    @Override
+    public GenreDto createNewGenreDto(GenreDto dto) {
+        Genre genre = mapper.genreDtoToGenreDomain(dto);
+        return mapper.genreDomainToGenreDto(genreRepository.save(genre));
     }
 }

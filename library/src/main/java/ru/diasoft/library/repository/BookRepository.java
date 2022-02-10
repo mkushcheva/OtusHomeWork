@@ -7,7 +7,7 @@ import ru.diasoft.library.domain.Book;
 import java.util.List;
 import java.util.Optional;
 
-public interface BookRepositoryJpa extends JpaRepository<Book, Long> {
+public interface BookRepository extends JpaRepository<Book, Long> {
     @EntityGraph(attributePaths = {"author", "genre"})
     Optional<Book> findByTitle(String title);
 

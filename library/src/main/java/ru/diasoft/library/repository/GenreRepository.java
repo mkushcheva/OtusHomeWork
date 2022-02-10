@@ -6,6 +6,6 @@ import ru.diasoft.library.domain.Genre;
 
 import java.util.Optional;
 
-public interface GenreRepositoryJpa extends JpaRepository<Genre, Long> {
+public interface GenreRepository extends JpaRepository<Genre, Long> {
     Optional<Genre> findByName(String name);
 }

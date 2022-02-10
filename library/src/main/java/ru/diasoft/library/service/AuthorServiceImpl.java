@@ -4,15 +4,21 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.diasoft.library.domain.Author;
-import ru.diasoft.library.repository.AuthorRepositoryJpa;
+import ru.diasoft.library.exception.NotFoundException;
+import ru.diasoft.library.repository.AuthorRepository;
+import ru.diasoft.library.rest.dto.AuthorDto;
+import ru.diasoft.library.rest.mapper.AuthorMapper;
+import ru.diasoft.library.utils.MessageSourceUtils;
 
-import java.util.Optional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 public class AuthorServiceImpl implements AuthorService {
-    private final AuthorRepositoryJpa authorRepository;
-    private final WriterService writerService;
+    private final AuthorRepository authorRepository;
+    private final AuthorMapper mapper;
+    private final MessageSourceUtils messageSource;
 
     @Override
     public Author getByName(String name) {
@@ -22,27 +28,31 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     @Transactional
     public Author create(String name) {
-        Author author = authorRepository.save(new Author(0, name));
-        writerService.printMessage("author.create.successful", new Object[]{author});
-        return author;
+        return authorRepository.save(new Author(0, name));
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public void printAllAuthors() {
-        writerService.printAllAuthors(authorRepository.findAll());
+    public void deleteById(long id) {
+        authorRepository.deleteById(id);
     }
 
     @Override
-    @Transactional
-    public void deleteByName(String name) {
-        Optional<Author> author = authorRepository.findByName(name);
+    public List<AuthorDto> getAllAuthorDto() {
+        return authorRepository.findAll().stream()
+                .map(mapper::authorDomainToAuthorDto)
+                .collect(Collectors.toList());
+    }
 
-        if (author.isPresent()) {
-            authorRepository.deleteById(author.get().getId());
-            writerService.printMessage("author.delete.successful", new Object[]{name});
-        } else {
-            writerService.printMessage("author.notFound");
-        }
+    @Override
+    public AuthorDto getAuthorDtoByID(long id) {
+        Author author = authorRepository.findById(id).orElseThrow(
+                () -> new NotFoundException(messageSource.getMessage("author.notFound")));
+        return mapper.authorDomainToAuthorDto(author);
+    }
+
+    @Override
+    public AuthorDto createNewAuthorDto(AuthorDto dto) {
+        Author author = mapper.authorDtoToAuthorDomain(dto);
+        return mapper.authorDomainToAuthorDto(authorRepository.save(author));
     }
 }

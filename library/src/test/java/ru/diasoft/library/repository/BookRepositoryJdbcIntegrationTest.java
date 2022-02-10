@@ -24,13 +24,13 @@ class BookRepositoryJdbcIntegrationTest {
     private static final String BOOK_TITLE_NEW = "Интеграционная книга";
 
     @Autowired
-    private GenreRepositoryJpa genreRepository;
+    private GenreRepository genreRepository;
     @Autowired
-    private AuthorRepositoryJpa authorRepository;
+    private AuthorRepository authorRepository;
     @Autowired
-    private CommentRepositoryJpa commentRepository;
+    private CommentRepository commentRepository;
     @Autowired
-    private BookRepositoryJpa bookRepository;
+    private BookRepository bookRepository;
 
     @BeforeEach
     void fillBase() {

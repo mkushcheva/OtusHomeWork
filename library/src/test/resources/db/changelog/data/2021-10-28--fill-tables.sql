@@ -2,9 +2,9 @@
 
 --changeset mkushcheva:2021-10-28-fill-author
 insert into author (author_id, author_name)
-values (1, 'Пушкин А.С. test'),
-       (2, 'Волков А.М. test'),
-       (3, 'Носов Н.Н. test')
+values (1, 'Пушкин А.С.'),
+       (2, 'Волков А.М.'),
+       (3, 'Носов Н.Н.')
 
 --changeset mkushcheva:2021-10-28-fill-genre
 insert into genre (genre_id, genre_name)

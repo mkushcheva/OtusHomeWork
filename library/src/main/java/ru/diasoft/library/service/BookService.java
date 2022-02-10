@@ -1,17 +1,20 @@
 package ru.diasoft.library.service;
 
 import ru.diasoft.library.domain.Book;
+import ru.diasoft.library.rest.dto.BookDto;
+
+import java.util.List;
 
 public interface BookService {
     Book create(String title, String authorName, String genreName);
 
-    void update(Long id, String title, String authorName, String genreName);
+    void deleteById(long id);
 
-    void deleteByTitle(String title);
+    List<BookDto> getAllBookDto();
 
-    void printInfoBook(String title);
+    BookDto getBookDtoById(long id);
 
-    void printAllBooks();
+    BookDto createNewBookDto(BookDto dto);
 
-    void addCommentToBook(String title, String commentText);
+    BookDto addCommentById(long id, String comment);
 }

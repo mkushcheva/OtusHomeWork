@@ -5,6 +5,6 @@ import ru.diasoft.library.domain.Author;
 
 import java.util.Optional;
 
-public interface AuthorRepositoryJpa extends JpaRepository<Author, Long> {
+public interface AuthorRepository extends JpaRepository<Author, Long> {
     Optional<Author> findByName(String name);
 }
