@@ -84,4 +84,20 @@
 
     </changeSet>
 
+    <changeSet id="2022-02-10--create-user" author="mkushcheva">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="user"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="user">
+            <column name="user_id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_login" type="varchar(25)"/>
+            <column name="user_password" type="varchar(25)"/>
+        </createTable>
+    </changeSet>
+
 </databaseChangeLog>

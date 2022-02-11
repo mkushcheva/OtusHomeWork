@@ -23,3 +23,8 @@ values (1, 'Волшебник изумрудного города', 2, 1),
        (7, 'Няне', 1, 3),
        (8, 'Мечты', 2, 3),
        (9, 'Разведчики', 2, 3)
+
+--changeset mkushcheva:2022-02-10-fill-user
+insert into user (user_id, user_login, user_password)
+values (1, 'admin', 'password'),
+       (2, 'mkushcheva', '12345678')
