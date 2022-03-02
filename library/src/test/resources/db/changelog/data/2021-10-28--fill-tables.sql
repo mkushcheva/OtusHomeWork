@@ -30,3 +30,9 @@ values (1, 'Книга про волшебника', 1),
     (2, 'Очень интерсеная', 1),
     (3, 'Советую почитать', 1),
     (4, 'Книга о жадкой старухе', 2)
+
+--changeset mkushcheva:2022-02-10-fill-user
+insert into user (user_id, user_login, user_password, user_role)
+values (1, 'admin', '$2y$12$LWdOCN1HY2ZmiF4MGRRBxOwoHepgHQJ00fsjd6kVPGDsYS6D02ok6', 'ADMIN'),
+    (2, 'mkushcheva', '12345678', 'ADMIN'),
+    (3, 'reader', '$2y$12$a3DM//RQ.TTtiRxiOd8nEO9AiTnIO6aeoYACvzIB7whFfeowfDpV6', 'READER')

@@ -22,7 +22,6 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Класс книг должен")
-@SpringBootTest
 class BookServiceImplTest {
     private static final long BOOK_ID = 1;
     private static final String BOOK_TITLE_NEW = "Новая книга";
