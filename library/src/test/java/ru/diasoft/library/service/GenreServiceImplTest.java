@@ -16,7 +16,6 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Класс жанров должен")
-@SpringBootTest
 class GenreServiceImplTest {
     private static final long EXISTING_GENRE_ID = 1;
     private static final String EXISTING_GENRE_NAME = "test";

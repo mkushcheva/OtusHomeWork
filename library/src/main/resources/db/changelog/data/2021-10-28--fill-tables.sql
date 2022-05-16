@@ -25,6 +25,7 @@ values (1, 'Волшебник изумрудного города', 2, 1),
        (9, 'Разведчики', 2, 3)
 
 --changeset mkushcheva:2022-02-10-fill-user
-insert into user (user_id, user_login, user_password)
-values (1, 'admin', 'password'),
-       (2, 'mkushcheva', '12345678')
+insert into user (user_id, user_login, user_password, user_role)
+values (1, 'admin', '$2y$12$LWdOCN1HY2ZmiF4MGRRBxOwoHepgHQJ00fsjd6kVPGDsYS6D02ok6', 'ADMIN'),
+    (2, 'mkushcheva', '12345678', 'ADMIN'),
+    (3, 'reader', '$2y$12$a3DM//RQ.TTtiRxiOd8nEO9AiTnIO6aeoYACvzIB7whFfeowfDpV6', 'READER')

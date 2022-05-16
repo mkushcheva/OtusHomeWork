@@ -6,33 +6,43 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import ru.diasoft.library.generator.GenreGenerator;
 
-import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-@WithMockUser(
-        username = "admin",
-        authorities = {"ROLE_ADMIN"}
-)
 @DisplayName("Контроллер жанров должен:")
 class GenreControllerTest {
+    private static final String READER_CREDENTIALS = "cmVhZGVyOnBhc3M=";
+
     @Autowired
     private MockMvc mvc;
 
     @Autowired
     private ObjectMapper mapper;
 
+    private String getToken() throws Exception {
+        MvcResult result = mvc.perform(post("/token")
+                .header("Authorization", "Basic " + READER_CREDENTIALS))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        return result.getResponse().getContentAsString();
+    }
+
     @Test
     @DisplayName("вернуть все жанры")
     void shouldGetAllGenresTest() throws Exception {
-        mvc.perform(get("/genre"))
+        mvc.perform(get("/genre")
+                .header("Authorization", "Bearer " + getToken())
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(mapper.writeValueAsString(GenreGenerator.getGenreDtoList())));
     }
@@ -40,22 +50,10 @@ class GenreControllerTest {
     @Test
     @DisplayName("вернуть жанр с id")
     void shouldGetAllGenreByID2Test() throws Exception {
-        mvc.perform(get("/genre/2"))
+        mvc.perform(get("/genre/2")
+                .header("Authorization", "Bearer " + getToken())
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(mapper.writeValueAsString(GenreGenerator.getGenreID2())));
-    }
-
-    @Test
-    @DisplayName("сохранить новый жанр и удалить его")
-    void shouldSaveNewGenreAndDeleteNewGenre() throws Exception {
-        String expectedResult = mapper.writeValueAsString(GenreGenerator.getNewGenre());
-
-        mvc.perform(post("/genre").contentType(APPLICATION_JSON)
-                .content(expectedResult))
-                .andExpect(status().isOk())
-                .andExpect(content().json(expectedResult));
-
-        mvc.perform(delete("/genre/4"))
-                .andExpect(status().isOk());
     }
 }

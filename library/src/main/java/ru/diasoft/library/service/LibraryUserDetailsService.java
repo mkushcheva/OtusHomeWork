@@ -20,6 +20,12 @@ public class LibraryUserDetailsService implements UserDetailsService {
         Users user = usersRepository.findByLogin(s)
                 .orElseThrow(() -> new UsernameNotFoundException("Пользователь " + s + " не зарегистрирован"));
 
-        return new User(user.getLogin(), user.getPassword(), AuthorityUtils.createAuthorityList("ROLE_ADMIN"));
+        return User.builder()
+                .username(user.getLogin())
+                .password(user.getPassword())
+                .authorities(AuthorityUtils.createAuthorityList("ROLE_" + user.getRole()))
+                .accountExpired(false)
+                .accountLocked(false)
+                .build();
     }
 }
