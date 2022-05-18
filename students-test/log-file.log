@@ -1,0 +1,56 @@
+2022-05-18 23:34:52.359  INFO 21908 --- [main] ru.otus.spring.Application               : Starting Application using Java 1.8.0_261 on mkushcheva-vm with PID 21908 (C:\WorkProject\BSmicroservis\EducationOtus\OtusHomeWork\students-test\target\classes started by mkushcheva in C:\WorkProject\BSmicroservis\EducationOtus\OtusHomeWork\students-test)
+2022-05-18 23:34:52.361  INFO 21908 --- [main] ru.otus.spring.Application               : No active profile set, falling back to default profiles: default
+2022-05-18 23:34:53.843  INFO 21908 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-05-18 23:34:53.859  INFO 21908 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-05-18 23:34:53.859  INFO 21908 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.53]
+2022-05-18 23:34:53.937  INFO 21908 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-05-18 23:34:53.937  INFO 21908 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1444 ms
+2022-05-18 23:34:54.781  WARN 21908 --- [main] org.jline                                : Unable to create a system terminal, creating a dumb terminal (enable debug logging for more information)
+2022-05-18 23:34:54.843  INFO 21908 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 14 endpoint(s) beneath base path '/actuator'
+2022-05-18 23:34:54.890  INFO 21908 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-05-18 23:34:54.905  INFO 21908 --- [main] ru.otus.spring.Application               : Started Application in 3.445 seconds (JVM running for 4.33)
+2022-05-18 23:35:39.829  INFO 21908 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-05-18 23:35:39.830  INFO 21908 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-05-18 23:35:39.834  INFO 21908 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 4 ms
+2022-05-18 23:38:09.749  INFO 22728 --- [main] ru.otus.spring.Application               : Starting Application using Java 1.8.0_261 on mkushcheva-vm with PID 22728 (C:\WorkProject\BSmicroservis\EducationOtus\OtusHomeWork\students-test\target\classes started by mkushcheva in C:\WorkProject\BSmicroservis\EducationOtus\OtusHomeWork\students-test)
+2022-05-18 23:38:09.749  INFO 22728 --- [main] ru.otus.spring.Application               : No active profile set, falling back to default profiles: default
+2022-05-18 23:38:11.140  INFO 22728 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-05-18 23:38:11.155  INFO 22728 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-05-18 23:38:11.155  INFO 22728 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.53]
+2022-05-18 23:38:11.233  INFO 22728 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-05-18 23:38:11.233  INFO 22728 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1422 ms
+2022-05-18 23:38:12.139  WARN 22728 --- [main] org.jline                                : Unable to create a system terminal, creating a dumb terminal (enable debug logging for more information)
+2022-05-18 23:38:12.202  INFO 22728 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 14 endpoint(s) beneath base path '/actuator'
+2022-05-18 23:38:12.249  INFO 22728 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-05-18 23:38:12.259  INFO 22728 --- [main] ru.otus.spring.Application               : Started Application in 3.265 seconds (JVM running for 4.224)
+2022-05-18 23:38:19.368  INFO 22728 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-05-18 23:38:19.369  INFO 22728 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-05-18 23:38:19.372  INFO 22728 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+2022-05-18 23:45:23.372  INFO 19904 --- [main] ru.otus.spring.Application               : Starting Application using Java 1.8.0_261 on mkushcheva-vm with PID 19904 (C:\WorkProject\BSmicroservis\EducationOtus\OtusHomeWork\students-test\target\classes started by mkushcheva in C:\WorkProject\BSmicroservis\EducationOtus\OtusHomeWork\students-test)
+2022-05-18 23:45:23.372  INFO 19904 --- [main] ru.otus.spring.Application               : No active profile set, falling back to default profiles: default
+2022-05-18 23:45:24.810  INFO 19904 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-05-18 23:45:24.825  INFO 19904 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-05-18 23:45:24.825  INFO 19904 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.53]
+2022-05-18 23:45:24.919  INFO 19904 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-05-18 23:45:24.919  INFO 19904 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1500 ms
+2022-05-18 23:45:25.810  WARN 19904 --- [main] org.jline                                : Unable to create a system terminal, creating a dumb terminal (enable debug logging for more information)
+2022-05-18 23:45:25.872  INFO 19904 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
+2022-05-18 23:45:25.919  INFO 19904 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-05-18 23:45:25.935  INFO 19904 --- [main] ru.otus.spring.Application               : Started Application in 3.393 seconds (JVM running for 4.283)
+2022-05-18 23:46:06.989  INFO 19904 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-05-18 23:46:06.990  INFO 19904 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-05-18 23:46:06.993  INFO 19904 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+2022-05-18 23:48:24.358  INFO 14832 --- [main] ru.otus.spring.Application               : Starting Application using Java 1.8.0_261 on mkushcheva-vm with PID 14832 (C:\WorkProject\BSmicroservis\EducationOtus\OtusHomeWork\students-test\target\classes started by mkushcheva in C:\WorkProject\BSmicroservis\EducationOtus\OtusHomeWork\students-test)
+2022-05-18 23:48:24.360  INFO 14832 --- [main] ru.otus.spring.Application               : No active profile set, falling back to default profiles: default
+2022-05-18 23:48:25.898  INFO 14832 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-05-18 23:48:25.908  INFO 14832 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-05-18 23:48:25.908  INFO 14832 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.53]
+2022-05-18 23:48:26.011  INFO 14832 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-05-18 23:48:26.011  INFO 14832 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1600 ms
+2022-05-18 23:48:26.877  WARN 14832 --- [main] org.jline                                : Unable to create a system terminal, creating a dumb terminal (enable debug logging for more information)
+2022-05-18 23:48:26.940  INFO 14832 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2022-05-18 23:48:26.980  INFO 14832 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-05-18 23:48:26.990  INFO 14832 --- [main] ru.otus.spring.Application               : Started Application in 3.313 seconds (JVM running for 4.193)
+2022-05-18 23:48:34.470  INFO 14832 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-05-18 23:48:34.471  INFO 14832 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-05-18 23:48:34.474  INFO 14832 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
