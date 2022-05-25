@@ -17,4 +17,5 @@ public class BookDto {
     private String genreName;
 
     private List<String> comments;
+    private long balance;
 }

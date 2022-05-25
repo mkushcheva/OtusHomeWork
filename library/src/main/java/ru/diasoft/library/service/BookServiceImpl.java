@@ -36,7 +36,7 @@ public class BookServiceImpl implements BookService {
                         title,
                         getAuthor(authorName),
                         getGenre(genreName),
-                        new ArrayList<>())
+                        new ArrayList<>(), 0)
         );
     }
 

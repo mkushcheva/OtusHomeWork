@@ -16,7 +16,8 @@ public class BookMapperImpl implements BookMapper{
                 bookDomain.getTitle(),
                 bookDomain.getAuthor().getName(),
                 bookDomain.getGenre().getName(),
-                bookDomain.getComments().stream().map(Comment::getCommentText).collect(Collectors.toList())
+                bookDomain.getComments().stream().map(Comment::getCommentText).collect(Collectors.toList()),
+                bookDomain.getBalance()
         );
     }
 

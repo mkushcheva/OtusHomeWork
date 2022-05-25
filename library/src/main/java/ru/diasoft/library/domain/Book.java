@@ -37,4 +37,7 @@ public class Book {
     @OneToMany(targetEntity = Comment.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "book_id")
     private List<Comment> comments;
+
+    @Column(name = "balance")
+    private long balance;
 }
