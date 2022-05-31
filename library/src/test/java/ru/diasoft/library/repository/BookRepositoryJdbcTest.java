@@ -39,7 +39,7 @@ class BookRepositoryJdbcTest {
     void shouldCreateBookTest() {
         int countBefore = bookRepository.findAll().size();
 
-        Book createBook = new Book(BOOK_ID_NEW, BOOK_TITLE_NEW, testAuthor, testGenre, comments);
+        Book createBook = new Book(BOOK_ID_NEW, BOOK_TITLE_NEW, testAuthor, testGenre, comments, 10);
         bookRepository.save(createBook);
 
         int countAfter = bookRepository.findAll().size();
@@ -94,7 +94,7 @@ class BookRepositoryJdbcTest {
         Book oldBook = em.find(Book.class, EXISTING_BOOK_ID);
         em.detach(oldBook);
 
-        Book newBook = new Book(EXISTING_BOOK_ID, BOOK_TITLE_NEW, oldBook.getAuthor(), oldBook.getGenre(), oldBook.getComments());
+        Book newBook = new Book(EXISTING_BOOK_ID, BOOK_TITLE_NEW, oldBook.getAuthor(), oldBook.getGenre(), oldBook.getComments(), 10);
 
         bookRepository.save(newBook);
 

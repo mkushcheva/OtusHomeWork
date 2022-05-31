@@ -39,7 +39,7 @@ class BookRepositoryJdbcIntegrationTest {
         List<Comment> comments = new ArrayList<>();
         comments.add(new Comment(1l, "Comment 1"));
         comments.add(new Comment(2l, "Comment 2"));
-        Book book = new Book(100, BOOK_TITLE_NEW, testAuthor, testGenre, comments);
+        Book book = new Book(100, BOOK_TITLE_NEW, testAuthor, testGenre, comments, 10);
 
         Author createAuthor = authorRepository.save(testAuthor);
         Genre createGenre = genreRepository.save(testGenre);

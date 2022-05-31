@@ -10,3 +10,9 @@
 /library/mvnw.cmd
 /library/spring-shell.log
 /library/target/*
+/salebooks/.idea/.gitignore
+/salebooks/.idea/*
+/salebooks/mvnw
+/salebooks/mvnw.cmd
+/salebooks/salebooks.iml
+/salebooks/target/*

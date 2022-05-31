@@ -46,7 +46,7 @@ class BookServiceImplTest {
 
     private final Author author = new Author(AUTHOR_ID, AUTHOR_NAME_NEW);
     private final Genre genre = new Genre(GENRE_ID, GENRE_NAME_NEW);
-    private final Book book = new Book(BOOK_ID, BOOK_TITLE_NEW, author, genre, new ArrayList<>());
+    private final Book book = new Book(BOOK_ID, BOOK_TITLE_NEW, author, genre, new ArrayList<>(), 10);
 
     @BeforeEach
     void setUp() {

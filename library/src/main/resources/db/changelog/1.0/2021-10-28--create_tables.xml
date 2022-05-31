@@ -60,6 +60,7 @@
                              references="genre(genre_id)"
                              deleteCascade="true"/>
             </column>
+            <column name="balance" type="bigint"/>
         </createTable>
     </changeSet>
 

@@ -35,7 +35,18 @@ public class BookGenerator {
     }
 
     public static BookDto getNewBook() {
-        return getBookDto(10l, "Новая книга", "Пушкин А.С.", "Сказка", new ArrayList<>());
+        return getBookDto(10l, "Новая книга", "Пушкин А.С.", "Сказка", new ArrayList<>(), 0);
+    }
+
+    private static BookDto getBookDto(long id, String title, String authorName, String genreName, List<String> comments, long balance) {
+        return BookDto.builder()
+                .id(id)
+                .title(title)
+                .authorName(authorName)
+                .genreName(genreName)
+                .comments(comments)
+                .balance(balance)
+                .build();
     }
 
     private static BookDto getBookDto(long id, String title, String authorName, String genreName, List<String> comments) {
@@ -45,6 +56,7 @@ public class BookGenerator {
                 .authorName(authorName)
                 .genreName(genreName)
                 .comments(comments)
+                .balance(10)
                 .build();
     }
 }
