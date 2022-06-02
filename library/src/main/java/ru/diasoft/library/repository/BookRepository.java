@@ -13,4 +13,6 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     @EntityGraph(attributePaths = {"author", "genre"})
     List<Book> findAll();
+
+    void deleteByTitle(String title);
 }
