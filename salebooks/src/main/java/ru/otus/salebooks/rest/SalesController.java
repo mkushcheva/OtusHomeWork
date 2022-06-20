@@ -5,14 +5,12 @@ import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import ru.otus.salebooks.dto.BookDto;
 import ru.otus.salebooks.dto.BookSaleDto;
 import ru.otus.salebooks.exception.MyBooksConnectionException;
+import ru.otus.salebooks.messaging.MessageProducer;
 import ru.otus.salebooks.service.SaleService;
 
 import java.nio.charset.StandardCharsets;
@@ -34,6 +32,14 @@ public class SalesController {
     private String userName;
     @Value("${mybook.pass}")
     private String userPass;
+
+    private final MessageProducer messageProducer;
+
+    @PostMapping("/sale")
+    public void addSale(@RequestBody BookSaleDto bookSale) {
+        System.out.println("Продаем книгу :"+ bookSale);
+        messageProducer.send(bookSale);
+    }
 
     @GetMapping("/book-sales")
     public List<BookSaleDto> getBookSales() {
