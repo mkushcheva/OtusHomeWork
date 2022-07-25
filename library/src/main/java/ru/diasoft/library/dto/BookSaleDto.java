@@ -11,18 +11,9 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BookSaleDto {
-    @JsonProperty("title")
     private String title;
-
-    @JsonProperty("saleDate")
     private LocalDate saleDate;
-
-    @JsonProperty("quantity")
     private int quantity;
-
-    @JsonProperty("cost")
     private BigDecimal cost;
-
-    @JsonProperty("balance")
     private long balance;
 }

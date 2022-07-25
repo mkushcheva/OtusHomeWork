@@ -1,19 +1,21 @@
 package ru.otus.salebooks.dto;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@Getter
-@Setter
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+@Builder
 public class BookSaleDto {
-    private final String title;
-    private final LocalDate saleDate;
-    private final int quantity;
-    private final BigDecimal cost;
+    private String title;
+    private LocalDate saleDate;
+    private int quantity;
+    private BigDecimal cost;
     private long balance;
 }

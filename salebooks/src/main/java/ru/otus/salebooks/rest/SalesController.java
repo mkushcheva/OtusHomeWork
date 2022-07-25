@@ -1,7 +1,5 @@
 package ru.otus.salebooks.rest;
 
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,7 +14,10 @@ import ru.otus.salebooks.messaging.MessageProducer;
 import ru.otus.salebooks.service.SaleService;
 
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/salebooks")
@@ -36,14 +37,14 @@ public class SalesController {
 
     @PostMapping("/sale")
     public void addSale(@RequestBody BookSaleDto bookSale) {
-        System.out.println("Продаем книгу :"+ bookSale);
+        System.out.println("Продаем книгу :" + bookSale);
         messageProducer.send(bookSale);
     }
 
     @GetMapping("/book-sales")
     public List<BookSaleDto> getBookSales() {
-        Map<String, BookDto> titleBookMap = getTitleBookMap();
         List<BookSaleDto> bookSales = saleService.getAllSales();
+        Map<String, BookDto> titleBookMap = getTitleBookMap();
 
         for (BookSaleDto bookSale : bookSales)
             bookSale.setBalance(titleBookMap.get(bookSale.getTitle()).getBalance());
@@ -64,9 +65,6 @@ public class SalesController {
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
 
-    @HystrixCommand(commandProperties ={
-           @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds" , value = "3000")} ,
-            fallbackMethod = "defaultBookFromMybook")
     private List<BookDto> getBooks() {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + getToken());
@@ -84,17 +82,6 @@ public class SalesController {
         } catch (Exception e) {
             throw new MyBooksConnectionException("Error getting a book list from MyBooks", e);
         }
-    }
-
-    private List<BookDto> defaultBookFromMybook(){
-        System.out.println("Сервис Mybook не доступен, выведем значение по умолчанию");
-
-        List<BookDto> bookDtoList= new ArrayList<>();
-        bookDtoList.add(BookDto.builder()
-                .title("Сервис Mybook не доступен")
-                .build());
-
-        return bookDtoList;
     }
 
     private String getToken() {
